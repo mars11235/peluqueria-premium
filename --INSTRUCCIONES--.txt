@@ -1,0 +1,59 @@
+================================================================
+INSTRUCCIONES USO LOCAL - GREGORIO STYLE BARBERÍA
+================================================================
+
+🎯 EL SISTEMA FUNCIONA 100% EN TU COMPUTADORA
+No necesita internet, no necesita hosting
+
+📋 CÓMO USAR:
+
+PASO 1 - ABRIR EL SISTEMA:
+   - Navegar a la carpeta descargada
+   - Hacer DOBLE CLIC en: 🗔 index.html
+   - Se abre en tu navegador (Chrome, Edge, etc.)
+   - ¡Listo! El sistema está funcionando
+
+PASO 2 - CONFIGURAR WHATSAPP (Importante):
+   - Cerrar el sistema si está abierto
+   - Abrir archivo: 📄 script.js con Bloc de notas
+   - Buscar (Ctrl+F): const tuNumero = "59167233590";
+   - Cambiar por tu número: "59171234567"
+   - Guardar (Ctrl+S) y cerrar
+   - Volver a abrir index.html
+
+PASO 3 - USO DIARIO:
+   - Los clientes pueden hacer reservas desde sus celulares
+   - Tú puedes abrir el sistema en tu computadora para ver reservas
+   - Todas las reservas se guardan automáticamente
+
+📱 CÓMO LOS CLIENTES RESERVAN DESDE SUS CELULARES:
+
+OPCIÓN A - COMPARTIR ARCHIVO:
+   1. Enviar archivo index.html por WhatsApp
+   2. Cliente lo descarga y abre
+   3. Funciona igual que en computadora
+
+OPCIÓN B - USAR COMPUTADORA DE LA BARBERÍA:
+   1. Dejar una tablet/computadora en la barbería
+   2. Clients hacen reservas directamente ahí
+   3. Tú recibes WhatsApp automáticamente
+
+💾 DONDE SE GUARDAN LAS RESERVAS:
+   - En el NAVEGADOR de cada dispositivo
+   - No se pierden al cerrar
+   - Backup automático
+
+🔄 ACTUALIZACIONES:
+   - Si necesitas cambiar precios o servicios
+   - Contactar a: [TU_NOMBRE] - [TU_TELEFONO]
+
+📞 SOPORTE INMEDIATO:
+[TU_NOMBRE]
+Teléfono: [TU_TELEFONO]
+Email: [TU_EMAIL]
+Horario: [HORARIO_ATENCION]
+
+⚠️ RECOMENDACIONES:
+- Usar Google Chrome para mejor experiencia
+- No eliminar los archivos de la carpeta
+- Hacer backup periódico de las reservas
