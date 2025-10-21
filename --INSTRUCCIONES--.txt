@@ -56,4 +56,5 @@ Horario: [HORARIO_ATENCION]
 ⚠️ RECOMENDACIONES:
 - Usar Google Chrome para mejor experiencia
 - No eliminar los archivos de la carpeta
+>>>>>>> 1010cd0eae66acc69437fa9ecea4c858c2b8fe00
 - Hacer backup periódico de las reservas

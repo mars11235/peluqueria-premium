@@ -1,3 +1,4 @@
+
 # 🪒 Barbershop Gregorio Style
 
 Sistema web profesional de reservas para barbería con panel de administración integrado.
@@ -242,4 +243,5 @@ Revisa la sección de solución de problemas
 
 Abre un issue en GitHub
 
+>>>>>>> 1010cd0eae66acc69437fa9ecea4c858c2b8fe00
 Contacta al desarrollador
