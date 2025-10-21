@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Privado - Gregorio Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0A0A0A;
+            color: #F5F5F5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: #1A1A1A;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #D4AF37;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            color: #D4AF37;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #2A2A2A;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #F5F5F5;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #D4AF37;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .admin-panel {
+            display: none;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #D4AF37;
+        }
+
+        .header h1 {
+            color: #D4AF37;
+            font-size: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #1A1A1A;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .stat-card.hoy {
+            border-color: #4CAF50;
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #D4AF37;
+        }
+
+        .filtros {
+            background: #1A1A1A;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #333;
+        }
+
+        .filtro-group {
+            margin-bottom: 1rem;
+        }
+
+        .filtro-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #D4AF37;
+            font-weight: bold;
+        }
+
+        .filtro-group input, .filtro-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: #2A2A2A;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #F5F5F5;
+        }
+
+        .reserva-item {
+            background: #1A1A1A;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .reserva-item.hoy {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .reserva-hora {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .reserva-cliente {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #D4AF37;
+            margin-bottom: 0.5rem;
+        }
+
+        .reserva-detalles {
+            color: #B0B0B0;
+            margin-bottom: 1rem;
+        }
+
+        .acciones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .btn-calendario {
+            background: #1A73E8;
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-llamar {
+            background: #D4AF37;
+            color: black;
+            grid-column: span 2;
+        }
+
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+            grid-column: span 2;
+            margin-top: 0.5rem;
+        }
+
+        .alert-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- PANTALLA DE LOGIN -->
+    <div class="login-container" id="loginContainer">
+        <h1>🔐 ADMIN GREGORIO STYLE</h1>
+        <p>Acceso exclusivo para el barbero</p>
+        <input type="password" class="password-input" id="passwordInput" placeholder="Contraseña" onkeypress="if(event.key=='Enter')login()">
+        <button class="login-btn" onclick="login()">ENTRAR</button>
+    </div>
+
+    <!-- PANEL ADMINISTRATIVO -->
+    <div class="admin-panel" id="adminPanel">
+        <button class="logout-btn" onclick="logout()">🔓 SALIR</button>
+        
+        <div class="header">
+            <h1>📅 RESERVAS PRIVADAS</h1>
+            <p>Gregorio Style - Panel del Barbero</p>
+        </div>
+
+        <div class="stats-grid" id="estadisticas">
+            <!-- Estadísticas se cargan aquí -->
+        </div>
+
+        <div class="filtros">
+            <div class="filtro-group">
+                <label for="filtroFecha">📅 Fecha</label>
+                <input type="date" id="filtroFecha" onchange="cargarReservas()">
+            </div>
+            <div class="filtro-group">
+                <label for="filtroBarbero">💈 Barbero</label>
+                <select id="filtroBarbero" onchange="cargarReservas()">
+                    <option value="">Todos</option>
+                    <option value="Roberto Carlos">Roberto Carlos</option>
+                    <option value="Kevin Canaviri">Kevin Canaviri</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="listaReservas">
+            <!-- Reservas se cargan aquí -->
+        </div>
+    </div>
+
+    <div class="alert-notification" id="alertNotification">
+        ¡Nueva reserva recibida!
+    </div>
+
+    <script>
+        // CONTRASEÑA DEL SISTEMA (cámbiala por una que solo tú sepas)
+        const PASSWORD = "barbero123";
+        let intervaloActualizacion;
+
+        function login() {
+            const passwordInput = document.getElementById('passwordInput');
+            if (passwordInput.value === PASSWORD) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                iniciarSistema();
+            } else {
+                alert('Contraseña incorrecta');
+                passwordInput.value = '';
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            clearInterval(intervaloActualizacion);
+        }
+
+        function iniciarSistema() {
+            // Configurar fecha actual
+            const fechaInput = document.getElementById('filtroFecha');
+            fechaInput.value = new Date().toISOString().split('T')[0];
+            
+            // Cargar reservas iniciales
+            cargarReservas();
+            
+            // Iniciar actualizaciones automáticas
+            intervaloActualizacion = setInterval(cargarReservas, 10000); // Cada 10 segundos
+            
+            // Verificar nuevas reservas
+            setInterval(verificarNuevasReservas, 5000);
+        }
+
+        function cargarReservas() {
+            const fecha = document.getElementById('filtroFecha').value;
+            const barbero = document.getElementById('filtroBarbero').value;
+            
+            try {
+                const todasReservas = JSON.parse(localStorage.getItem('reservas_barberia') || '[]');
+                
+                // Filtrar reservas
+                let reservasFiltradas = todasReservas.filter(reserva => {
+                    if (fecha && reserva.fecha !== fecha) return false;
+                    if (barbero && reserva.estilista !== barbero) return false;
+                    return true;
+                });
+                
+                // Ordenar por fecha y hora
+                reservasFiltradas.sort((a, b) => {
+                    const fechaA = new Date(a.fecha + 'T' + a.hora);
+                    const fechaB = new Date(b.fecha + 'T' + b.hora);
+                    return fechaA - fechaB;
+                });
+                
+                mostrarEstadisticas(reservasFiltradas, fecha);
+                mostrarReservas(reservasFiltradas);
+                
+            } catch (error) {
+                console.error('Error cargando reservas:', error);
+            }
+        }
+
+        function mostrarEstadisticas(reservas, fecha) {
+            const hoy = new Date().toISOString().split('T')[0];
+            const esHoy = fecha === hoy;
+            
+            const total = reservas.length;
+            const ingresos = reservas.reduce((sum, r) => sum + (parseInt(r.precio) || 0), 0);
+            const tiempoTotal = reservas.reduce((sum, r) => sum + (parseInt(r.duracion) || 30), 0);
+            const clientesUnicos = new Set(reservas.map(r => r.cliente?.telefono)).size;
+
+            document.getElementById('estadisticas').innerHTML = `
+                <div class="stat-card ${esHoy ? 'hoy' : ''}">
+                    <div class="stat-number">${total}</div>
+                    <div>Reservas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Bs ${ingresos}</div>
+                    <div>Ingresos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${Math.ceil(tiempoTotal/60)}h</div>
+                    <div>Tiempo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${clientesUnicos}</div>
+                    <div>Clientes</div>
+                </div>
+            `;
+        }
+
+        function mostrarReservas(reservas) {
+            const container = document.getElementById('listaReservas');
+            const hoy = new Date().toISOString().split('T')[0];
+            
+            if (reservas.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888;">No hay reservas para los filtros seleccionados</div>';
+                return;
+            }
+
+            const html = reservas.map(reserva => {
+                const cliente = reserva.cliente || {};
+                const esHoy = reserva.fecha === hoy;
+                
+                const enlaceCalendario = crearEnlaceCalendario(reserva);
+                const enlaceWhatsApp = `https://wa.me/${cliente.telefono}`;
+                const enlaceLlamar = `tel:${cliente.telefono}`;
+
+                return `
+                <div class="reserva-item ${esHoy ? 'hoy' : ''}">
+                    <div class="reserva-hora">⏰ ${reserva.hora}</div>
+                    <div class="reserva-cliente">👤 ${cliente.nombre}</div>
+                    <div class="reserva-detalles">
+                        <div>📞 ${cliente.telefono}</div>
+                        <div>✂️ ${reserva.servicio} - 💰 Bs ${reserva.precio}</div>
+                        <div>💈 ${reserva.estilista} - ⏱ ${reserva.duracion} min</div>
+                        <div>📅 ${reserva.fecha}</div>
+                    </div>
+                    <div class="acciones">
+                        <a href="${enlaceCalendario}" class="btn btn-calendario" target="_blank">📅 Calendario</a>
+                        <a href="${enlaceWhatsApp}" class="btn btn-whatsapp" target="_blank">💬 WhatsApp</a>
+                        <a href="${enlaceLlamar}" class="btn btn-llamar">📞 Llamar</a>
+                        <button onclick="eliminarReserva(${reserva.id})" class="btn btn-eliminar">🗑️ Eliminar</button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
+        }
+
+        function crearEnlaceCalendario(reserva) {
+            const fechaInicio = new Date(reserva.fecha + 'T' + reserva.hora);
+            const fechaFin = new Date(fechaInicio.getTime() + (reserva.duracion * 60000));
+            
+            const formatDate = (date) => {
+                return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            };
+            
+            const detalles = {
+                action: 'TEMPLATE',
+                text: `Corte - ${reserva.cliente.nombre}`,
+                dates: `${formatDate(fechaInicio)}/${formatDate(fechaFin)}`,
+                details: `Cliente: ${reserva.cliente.nombre}
+Teléfono: ${reserva.cliente.telefono}
+Servicio: ${reserva.servicio}
+Barbero: ${reserva.estilista}
+Precio: Bs ${reserva.precio}
+
+Reserva Gregorio Style`,
+                location: 'Gregorio Style, Ecuador y Pasaje del Maestro'
+            };
+            
+            const params = new URLSearchParams(detalles);
+            return `https://calendar.google.com/calendar/render?${params.toString()}`;
+        }
+
+        function verificarNuevasReservas() {
+            // Esta función verifica si hay reservas nuevas y muestra notificación
+            const cantidadAnterior = window.ultimaCantidadReservas || 0;
+            const reservasActuales = JSON.parse(localStorage.getItem('reservas_barberia') || '[]').length;
+            
+            if (reservasActuales > cantidadAnterior) {
+                mostrarNotificacion('¡Nueva reserva recibida!');
+            }
+            
+            window.ultimaCantidadReservas = reservasActuales;
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notification = document.getElementById('alertNotification');
+            notification.textContent = mensaje;
+            notification.style.display = 'block';
+            
+            // Reproducir sonido
+            reproducirSonido();
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function reproducirSonido() {
+            // Sonido de notificación simple
+            const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');
+            audio.play().catch(e => console.log('Sonido no disponible'));
+        }
+
+        function eliminarReserva(id) {
+            if (confirm('¿Estás seguro de eliminar esta reserva?')) {
+                const todasReservas = JSON.parse(localStorage.getItem('reservas_barberia') || '[]');
+                const nuevasReservas = todasReservas.filter(r => r.id != id);
+                localStorage.setItem('reservas_barberia', JSON.stringify(nuevasReservas));
+                cargarReservas();
+                mostrarNotificacion('Reserva eliminada');
+            }
+        }
+
+        // Permitir entrar con Enter
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>
