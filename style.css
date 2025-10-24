@@ -1386,3 +1386,131 @@ img, video, canvas {
         transform: none;
     }
 }
+
+
+/* ===== SERVICES SECTION - OPTIMIZADO PARA MÓVILES ===== */
+.services {
+    padding: 60px 0;
+    background: var(--negro-profundo);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.service-card {
+    background: var(--negro-secundario);
+    padding: 1.2rem 1rem;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: var(--transicion);
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.service-header {
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+
+.service-icon {
+    font-size: 1.5rem;
+    color: var(--dorado-premium);
+    margin-bottom: 0.6rem;
+}
+
+.service-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--blanco-hueso);
+}
+
+.service-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dorado-premium);
+    margin: 0.3rem 0;
+}
+
+.service-duration {
+    color: var(--texto-gris);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.service-features {
+    list-style: none;
+    margin-top: auto;
+    padding: 0;
+}
+
+.service-features li {
+    padding: 0.2rem 0;
+    position: relative;
+    padding-left: 0.8rem;
+    color: var(--texto-gris);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.service-features li:last-child {
+    border-bottom: none;
+}
+
+.service-features li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--dorado-premium);
+    font-size: 0.8rem;
+}
+
+/* Categorías de servicios más compactas */
+.service-category-title {
+    color: #D4AF37;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 1.5rem 0 0.8rem 0;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+/* Botones de categorías más compactos */
+.services-categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.category-btn {
+    background: var(--gris-carbón);
+    color: var(--texto-gris);
+    border: 1px solid transparent;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: var(--transicion);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 36px;
+}

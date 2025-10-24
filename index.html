@@ -8,6 +8,123 @@
     <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* MEJORAS ADICIONALES PARA MÓVILES COMPACTOS */
+        @media (max-width: 768px) {
+            .services-section {
+                padding: 2rem 0;
+            }
+            
+            .service-card {
+                margin-bottom: 0.5rem;
+            }
+            
+            .service-card h3 {
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+            
+            @media (max-width: 400px) {
+                .services-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            
+            @media (min-width: 401px) and (max-width: 600px) {
+                .services-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            .service-option {
+                padding: 0.8rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .service-option label {
+                font-size: 0.8rem;
+            }
+            
+            .service-option strong {
+                font-size: 0.85rem;
+            }
+            
+            .price-tag {
+                font-size: 0.9rem;
+                margin-left: 8px;
+            }
+            
+            .duration {
+                font-size: 0.7rem;
+                margin-left: 4px;
+            }
+        }
+
+        .service-category-title {
+            color: #D4AF37;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #D4AF37;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .service-option {
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--negro-profundo);
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-option:hover {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .service-option.selected {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .service-option label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--blanco-hueso);
+        }
+        
+        .service-option input[type="radio"] {
+            margin: 0;
+        }
+        
+        .service-option strong {
+            font-size: 0.95rem;
+        }
+        
+        .price-tag {
+            color: #D4AF37;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .duration {
+            color: #888;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
