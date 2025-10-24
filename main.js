@@ -1531,6 +1531,90 @@ function inicializarProgresoReserva() {
     }
 }
 
+function inicializarAutoScroll() {
+    // Auto-scroll al seleccionar opciones
+    document.querySelectorAll('.service-option').forEach(option => {
+        option.addEventListener('click', function() {
+            setTimeout(() => {
+                scrollToNextStep(1);
+            }, 400);
+        });
+    });
+    
+    document.querySelectorAll('.stylist-option').forEach(option => {
+        option.addEventListener('click', function() {
+            setTimeout(() => {
+                scrollToNextStep(2);
+            }, 400);
+        });
+    });
+    
+    // Auto-scroll al cambiar fecha/hora
+    document.getElementById('booking-date')?.addEventListener('change', function() {
+        setTimeout(() => {
+            scrollToNextStep(3);
+        }, 600);
+    });
+    
+    document.getElementById('booking-time')?.addEventListener('change', function() {
+        setTimeout(() => {
+            scrollToNextStep(3);
+        }, 600);
+    });
+    
+    // Auto-scroll al enfocar inputs de cliente
+    document.querySelectorAll('.client-info input').forEach(input => {
+        input.addEventListener('focus', function() {
+            setTimeout(() => {
+                scrollToNextStep(4);
+            }, 500);
+        });
+    });
+}
+
+function scrollToNextStep(stepNumber) {
+    const stepElement = document.getElementById(`step-${stepNumber}`);
+    if (!stepElement) return;
+    
+    const nextButton = stepElement.querySelector('.form-next, .form-submit');
+    if (nextButton) {
+        const buttonRect = nextButton.getBoundingClientRect();
+        const offsetTop = buttonRect.top + window.pageYOffset;
+        
+        // Scroll suave al botón
+        window.scrollTo({
+            top: offsetTop - 120, // Espacio para mejor visibilidad
+            behavior: 'smooth'
+        });
+        
+        // Efecto de atención
+        highlightButton(nextButton);
+    }
+}
+
+function highlightButton(button) {
+    button.classList.add('highlight');
+    setTimeout(() => {
+        button.classList.remove('highlight');
+    }, 2000);
+}
+
+// Modificar la función initApp para incluir auto-scroll
+function initApp() {
+    cargarServicios();
+    cargarHorarios();
+    inicializarNavegacion();
+    inicializarFormularioReserva();
+    inicializarFiltrosServicios();
+    setupScrollAnimations();
+    inicializarMobileFeatures();
+    inicializarSistemaReservas();
+    inicializarNavegacionSticky();
+    inicializarProgresoReserva();
+    inicializarFavoritos();
+    inicializarAutoScroll(); // NUEVO
+}
+
 // Actualizar progreso
 function actualizarProgresoReserva(paso) {
     const indicators = document.querySelectorAll('.step-indicator');
