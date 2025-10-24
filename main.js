@@ -568,7 +568,7 @@ class ServiciosManager {
     constructor() {
         this.servicios = servicios;
         this.currentPage = 1;
-        this.itemsPerPage = 50; // Mostrar todos los servicios
+        this.itemsPerPage = 50;
         this.currentCategory = 'all';
     }
 
@@ -699,7 +699,7 @@ function crearServiceCard(servicio) {
                 <i class="${servicio.icono}"></i>
             </div>
             <h3>${servicio.nombre}</h3>
-            <div class="service-price" style="color: #D4AF37; font-weight: bold; font-size: 1.4rem;">Bs ${servicio.precio}</div>
+            <div class="service-price">Bs ${servicio.precio}</div>
             <div class="service-duration">${servicio.duracion} min</div>
         </div>
         <ul class="service-features">
@@ -718,8 +718,8 @@ function crearServiceOption(servicio) {
         <input type="radio" name="service" value="${servicio.id}" id="service-${servicio.id}">
         <label for="service-${servicio.id}">
             <strong>${servicio.nombre}</strong> 
-            <span style="color: #D4AF37; font-weight: bold; margin-left: 10px;">Bs ${servicio.precio}</span>
-            <span style="color: #888; font-size: 0.8rem; margin-left: 5px;">(${servicio.duracion} min)</span>
+            <span class="price-tag">Bs ${servicio.precio}</span>
+            <span class="duration">(${servicio.duracion} min)</span>
         </label>
     `;
     return serviceOption;
@@ -765,10 +765,8 @@ function filtrarServicios(categoria) {
     servicesContainer.innerHTML = '';
     
     if (categoria === 'all') {
-        // Mostrar todos organizados por categorías
         cargarServicios();
     } else {
-        // Mostrar solo la categoría seleccionada
         const serviciosFiltrados = serviciosManager.getServiciosPaginados(categoria);
         
         serviciosFiltrados.forEach(servicio => {
@@ -1269,7 +1267,8 @@ function setupScrollAnimations() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                     observer.unobserve(entry.target);
                 }
             });
@@ -1317,9 +1316,117 @@ window.prevStep = prevStep;
 window.lanzarConfeti = lanzarConfeti;
 window.mostrarAlerta = mostrarAlerta;
 
-console.log('🚀 Barbershop Gregorio Style - Sistema optimizado y listo!');
-
-// ===== EXPORTAR SISTEMA DE RESERVAS PARA EL PANEL ADMIN =====
-window.obtenerSistemaReservas = function() {
-    return sistemaReservas;
+// ===== PANEL ADMIN FUNCTIONS =====
+window.togglePanelAdmin = function() {
+    const modal = document.getElementById('modalAdmin');
+    if (modal.style.display === 'none' || !modal.style.display) {
+        modal.style.display = 'block';
+        cargarCalendario();
+    } else {
+        modal.style.display = 'none';
+    }
 };
+
+window.cargarCalendario = function() {
+    try {
+        const reservas = sistemaReservas.obtenerReservas();
+        mostrarEstadisticas(reservas);
+        mostrarReservas(reservas);
+    } catch (error) {
+        console.error('Error cargando calendario:', error);
+    }
+};
+
+window.filtrarReservas = function() {
+    cargarCalendario();
+};
+
+function mostrarEstadisticas(reservas) {
+    const hoy = new Date().toISOString().split('T')[0];
+    const reservasHoy = reservas.filter(r => r.fecha === hoy).length;
+    const reservasTotal = reservas.length;
+    const ingresosTotal = reservas.reduce((sum, r) => sum + (parseInt(r.precio) || 0), 0);
+
+    const estadisticasEl = document.getElementById('estadisticas');
+    if (estadisticasEl) {
+        estadisticasEl.innerHTML = `
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; color: #D4AF37;">${reservasTotal}</div>
+                <div style="font-size: 0.8rem;">Total Reservas</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; color: #4CAF50;">${reservasHoy}</div>
+                <div style="font-size: 0.8rem;">Reservas Hoy</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; color: #2196F3;">Bs ${ingresosTotal}</div>
+                <div style="font-size: 0.8rem;">Ingresos Totales</div>
+            </div>
+        `;
+    }
+}
+
+function mostrarReservas(reservas) {
+    const filtroFecha = document.getElementById('filtroFecha')?.value || '';
+    const filtroBarbero = document.getElementById('filtroBarbero')?.value || '';
+
+    let reservasFiltradas = reservas;
+    
+    if (filtroFecha) {
+        reservasFiltradas = reservasFiltradas.filter(r => r.fecha === filtroFecha);
+    }
+    
+    if (filtroBarbero) {
+        reservasFiltradas = reservasFiltradas.filter(r => r.estilista === filtroBarbero);
+    }
+
+    const listaReservasEl = document.getElementById('listaReservas');
+    if (!listaReservasEl) return;
+
+    if (reservasFiltradas.length === 0) {
+        listaReservasEl.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888;">No hay reservas con los filtros aplicados</div>';
+        return;
+    }
+
+    const html = reservasFiltradas.map(reserva => {
+        const cliente = reserva.cliente || {};
+        return `
+        <div style="background: #2A2A2A; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #D4AF37;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; align-items: start;">
+                <div>
+                    <h4 style="color: #D4AF37; margin: 0 0 0.5rem 0;">${cliente.nombre || 'Sin nombre'}</h4>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;">📞 ${cliente.telefono || 'Sin teléfono'}</p>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;">📧 ${cliente.email || 'Sin email'}</p>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;">✂️ ${reserva.servicio}</p>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;">💈 ${reserva.estilista}</p>
+                </div>
+                <div>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>📅 ${reserva.fecha}</strong></p>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>⏰ ${reserva.hora}</strong></p>
+                    <p style="margin: 0.2rem 0; font-size: 0.9rem;">💰 Bs ${reserva.precio}</p>
+                </div>
+                <div>
+                    <button onclick="eliminarReserva(${reserva.id})" style="padding: 5px 10px; background: #ff4444; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 0.8rem;">
+                        ❌ Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+        `;
+    }).join('');
+
+    listaReservasEl.innerHTML = html;
+}
+
+window.eliminarReserva = function(id) {
+    if (confirm('¿Estás seguro de eliminar esta reserva?')) {
+        const todasReservas = sistemaReservas.obtenerReservas();
+        const nuevasReservas = todasReservas.filter(r => r.id !== id);
+        sistemaReservas.reservas = nuevasReservas;
+        sistemaReservas.guardarEnLocalStorage();
+        cargarCalendario();
+        mostrarAlerta('✅ Reserva eliminada correctamente', 'success');
+    }
+};
+
+console.log('🚀 Barbershop Gregorio Style - Sistema optimizado y listo!');

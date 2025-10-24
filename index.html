@@ -4,74 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbershop Gregorio Style</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .service-category-title {
-            color: #D4AF37;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #D4AF37;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            grid-column: 1 / -1;
-        }
-        
-        .service-option {
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--negro-profundo);
-            margin-bottom: 0.5rem;
-        }
-        
-        .service-option:hover {
-            border-color: #D4AF37;
-            background: rgba(212, 175, 55, 0.05);
-        }
-        
-        .service-option.selected {
-            border-color: #D4AF37;
-            background: rgba(212, 175, 55, 0.1);
-        }
-        
-        .service-option label {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--blanco-hueso);
-        }
-        
-        .service-option input[type="radio"] {
-            margin: 0;
-        }
-        
-        .service-option strong {
-            font-size: 0.95rem;
-        }
-        
-        .price-tag {
-            color: #D4AF37;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .duration {
-            color: #888;
-            font-size: 0.8rem;
-            margin-left: 5px;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -87,15 +23,15 @@
                 <li><a href="#galeria">GALERÍA</a></li>
                 <li><a href="#reservas">RESERVAS</a></li>
             </ul>
-            <div class="nav-toggle">
+            <button class="nav-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section con Video LOCAL -->
+    <!-- Hero Section -->
     <section class="hero" id="inicio">
         <div class="video-background">
             <video autoplay muted loop playsinline>
@@ -110,6 +46,9 @@
             <p class="hero-description">TRADICIÓN Y PRECISIÓN EN CADA CORTE</p>
             <a href="#reservas" class="cta-button">RESERVAR CITA</a>
         </div>
+        <div class="hero-scroll">
+            <i class="fas fa-chevron-down"></i>
+        </div>
     </section>
 
     <!-- Services Section -->
@@ -123,6 +62,7 @@
                 <button class="category-btn" data-category="diseno">Con Diseño</button>
                 <button class="category-btn" data-category="barba">Barba</button>
                 <button class="category-btn" data-category="estetica">Estética</button>
+                <button class="category-btn" data-category="complementario">Complementarios</button>
                 <button class="category-btn" data-category="paquete">Paquetes</button>
             </div>
             <div class="services-grid" id="services-container">
@@ -246,415 +186,7 @@
                     <div class="form-step active" id="step-1">
                         <h3>1. SELECCIONA SERVICIO</h3>
                         <div class="service-select" id="service-select">
-                            
-                            <!-- CORTES CLÁSICOS -->
-                            <div class="service-category-title">CORTES CLÁSICOS</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="1" id="service-1">
-                                <label for="service-1">
-                                    <strong>Corte Escolar</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="2" id="service-2">
-                                <label for="service-2">
-                                    <strong>Corte Hongo</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="3" id="service-3">
-                                <label for="service-3">
-                                    <strong>Corte Militar</strong>
-                                    <span class="price-tag">Bs 8</span>
-                                    <span class="duration">(25 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="4" id="service-4">
-                                <label for="service-4">
-                                    <strong>Corte Romano</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(35 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="5" id="service-5">
-                                <label for="service-5">
-                                    <strong>Corte Media Melena</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(40 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="6" id="service-6">
-                                <label for="service-6">
-                                    <strong>Corte Cristiano Ronaldo</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(35 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="7" id="service-7">
-                                <label for="service-7">
-                                    <strong>Corte Mesa</strong>
-                                    <span class="price-tag">Bs 15</span>
-                                    <span class="duration">(45 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="8" id="service-8">
-                                <label for="service-8">
-                                    <strong>Corte Casquete Corto</strong>
-                                    <span class="price-tag">Bs 12</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- CORTES FADE -->
-                            <div class="service-category-title">CORTES FADE</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="9" id="service-9">
-                                <label for="service-9">
-                                    <strong>Low Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(45 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="10" id="service-10">
-                                <label for="service-10">
-                                    <strong>Mid Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(50 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="11" id="service-11">
-                                <label for="service-11">
-                                    <strong>High Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(55 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="12" id="service-12">
-                                <label for="service-12">
-                                    <strong>Skin Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(60 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="13" id="service-13">
-                                <label for="service-13">
-                                    <strong>Bald Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(50 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="14" id="service-14">
-                                <label for="service-14">
-                                    <strong>Taper Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(45 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="15" id="service-15">
-                                <label for="service-15">
-                                    <strong>Drop Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(55 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="16" id="service-16">
-                                <label for="service-16">
-                                    <strong>Burst Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(60 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="17" id="service-17">
-                                <label for="service-17">
-                                    <strong>Curly Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(50 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="18" id="service-18">
-                                <label for="service-18">
-                                    <strong>Mullet Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(55 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="19" id="service-19">
-                                <label for="service-19">
-                                    <strong>Mohawk Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(60 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="20" id="service-20">
-                                <label for="service-20">
-                                    <strong>Mohicano Fade</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(55 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="21" id="service-21">
-                                <label for="service-21">
-                                    <strong>Faux Hawk Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(60 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="22" id="service-22">
-                                <label for="service-22">
-                                    <strong>Mid Fade con Textura Alto</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(65 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="23" id="service-23">
-                                <label for="service-23">
-                                    <strong>Taper Burst Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(60 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="24" id="service-24">
-                                <label for="service-24">
-                                    <strong>French Crop Fade</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(55 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- CORTES CON DISEÑO -->
-                            <div class="service-category-title">CORTES CON DISEÑO</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="25" id="service-25">
-                                <label for="service-25">
-                                    <strong>Fade con Diseño Fácil</strong>
-                                    <span class="price-tag">Bs 60</span>
-                                    <span class="duration">(70 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="26" id="service-26">
-                                <label for="service-26">
-                                    <strong>Fade con Diseño Medio</strong>
-                                    <span class="price-tag">Bs 70</span>
-                                    <span class="duration">(80 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="27" id="service-27">
-                                <label for="service-27">
-                                    <strong>Fade con Diseño Difícil</strong>
-                                    <span class="price-tag">Bs 80</span>
-                                    <span class="duration">(90 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- BARBA Y AFEITADO -->
-                            <div class="service-category-title">BARBA Y AFEITADO</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="28" id="service-28">
-                                <label for="service-28">
-                                    <strong>Recorte de Barba</strong>
-                                    <span class="price-tag">Bs 15</span>
-                                    <span class="duration">(20 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="29" id="service-29">
-                                <label for="service-29">
-                                    <strong>Perfilado de Barba</strong>
-                                    <span class="price-tag">Bs 20</span>
-                                    <span class="duration">(25 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="30" id="service-30">
-                                <label for="service-30">
-                                    <strong>Afeitado con Toalla Caliente</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="31" id="service-31">
-                                <label for="service-31">
-                                    <strong>Diseño de Barba + Cejas</strong>
-                                    <span class="price-tag">Bs 60</span>
-                                    <span class="duration">(35 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="32" id="service-32">
-                                <label for="service-32">
-                                    <strong>Barba + Pigmentación</strong>
-                                    <span class="price-tag">Bs 70</span>
-                                    <span class="duration">(45 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- ESTÉTICA MASCULINA -->
-                            <div class="service-category-title">ESTÉTICA MASCULINA</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="33" id="service-33">
-                                <label for="service-33">
-                                    <strong>Limpieza Facial con Exfoliante</strong>
-                                    <span class="price-tag">Bs 60</span>
-                                    <span class="duration">(40 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="34" id="service-34">
-                                <label for="service-34">
-                                    <strong>Mascarilla Refrescante</strong>
-                                    <span class="price-tag">Bs 50</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="35" id="service-35">
-                                <label for="service-35">
-                                    <strong>Depilación con Cera (Cejas, Nariz, Orejas)</strong>
-                                    <span class="price-tag">Bs 25</span>
-                                    <span class="duration">(20 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="36" id="service-36">
-                                <label for="service-36">
-                                    <strong>Diseño de Cejas</strong>
-                                    <span class="price-tag">Bs 10</span>
-                                    <span class="duration">(15 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- SERVICIOS COMPLEMENTARIOS -->
-                            <div class="service-category-title">SERVICIOS COMPLEMENTARIOS</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="37" id="service-37">
-                                <label for="service-37">
-                                    <strong>Lavado de Cabello</strong>
-                                    <span class="price-tag">Bs 20</span>
-                                    <span class="duration">(15 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="38" id="service-38">
-                                <label for="service-38">
-                                    <strong>Secado con Secador</strong>
-                                    <span class="price-tag">Bs 20</span>
-                                    <span class="duration">(15 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="39" id="service-39">
-                                <label for="service-39">
-                                    <strong>Peinado con Plancha</strong>
-                                    <span class="price-tag">Bs 30</span>
-                                    <span class="duration">(25 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="40" id="service-40">
-                                <label for="service-40">
-                                    <strong>Hidratación Capilar</strong>
-                                    <span class="price-tag">Bs 40</span>
-                                    <span class="duration">(30 min)</span>
-                                </label>
-                            </div>
-
-                            <!-- PAQUETES ESPECIALES -->
-                            <div class="service-category-title">PAQUETES ESPECIALES</div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="41" id="service-41">
-                                <label for="service-41">
-                                    <strong>Paquete Básico (Corte + Barba + Cejas)</strong>
-                                    <span class="price-tag">Bs 80</span>
-                                    <span class="duration">(75 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="42" id="service-42">
-                                <label for="service-42">
-                                    <strong>Paquete Completo (Corte + Barba + Lavado + Facial)</strong>
-                                    <span class="price-tag">Bs 90</span>
-                                    <span class="duration">(90 min)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="service-option">
-                                <input type="radio" name="service" value="43" id="service-43">
-                                <label for="service-43">
-                                    <strong>Paquete VIP (Corte + Barba + Cejas + Mascarilla + Lavado)</strong>
-                                    <span class="price-tag">Bs 100</span>
-                                    <span class="duration">(120 min)</span>
-                                </label>
-                            </div>
-
+                            <!-- Los servicios se cargan con JavaScript -->
                         </div>
                         <div class="form-navigation">
                             <button type="button" class="form-next" onclick="nextStep(2)">SIGUIENTE</button>
@@ -749,226 +281,59 @@
         </div>
     </footer>
 
-    <!-- Panel Admin -->
-    <div id="panelAdmin">
-        <div style="position: fixed; top: 20px; right: 20px; z-index: 10001;">
-            <button onclick="togglePanelAdmin()" style="padding: 10px 15px; background: #D4AF37; color: black; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-                📋 Ver Reservas
-            </button>
-        </div>
+    <!-- Panel Admin Button -->
+    <div class="admin-button-container">
+        <button onclick="togglePanelAdmin()" class="admin-button">
+            📋 Ver Reservas
+        </button>
+    </div>
 
-        <div id="modalAdmin" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10002; padding: 1rem; overflow-y: auto;">
-            <div style="background: #1A1A1A; padding: 2rem; border-radius: 10px; max-width: 1200px; margin: 0 auto; color: white; min-height: 90vh;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid #D4AF37; padding-bottom: 1rem;">
-                    <div>
-                        <h2 style="color: #D4AF37; margin: 0; font-size: 1.8rem;">📅 Calendario de Reservas</h2>
-                        <p style="margin: 0.5rem 0 0 0; color: #ccc; font-size: 0.9rem;">Gregorio Style - Panel de Administración</p>
-                    </div>
-                    <button onclick="togglePanelAdmin()" style="padding: 8px 15px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                        ✕ Cerrar
-                    </button>
-                </div>
-
-                <div style="margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; color: #D4AF37; font-weight: bold;">📅 Filtrar por Fecha</label>
-                        <input type="date" id="filtroFecha" onchange="filtrarReservas()" style="width: 100%; padding: 10px; background: #2A2A2A; border: 1px solid #D4AF37; color: white; border-radius: 5px;">
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; color: #D4AF37; font-weight: bold;">💈 Filtrar por Barbero</label>
-                        <select id="filtroBarbero" onchange="filtrarReservas()" style="width: 100%; padding: 10px; background: #2A2A2A; border: 1px solid #D4AF37; color: white; border-radius: 5px;">
-                            <option value="">Todos los barberos</option>
-                            <option value="Roberto Carlos">Roberto Carlos</option>
-                            <option value="Kevin Canaviri">Kevin Canaviri</option>
-                        </select>
-                    </div>
-                    <button onclick="cargarCalendario()" style="padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; height: 42px;">
-                        🔄 Actualizar
-                    </button>
-                </div>
-
-                <div id="estadisticas" style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; border: 1px solid #333;">
-                    <!-- Las estadísticas se cargan con JavaScript -->
-                </div>
-
+    <!-- Panel Admin Modal -->
+    <div id="modalAdmin" class="admin-modal">
+        <div class="admin-modal-content">
+            <div class="admin-header">
                 <div>
-                    <h3 style="color: #D4AF37; margin-bottom: 1rem;">📋 Lista de Reservas</h3>
-                    <div id="listaReservas">
-                        <!-- Las reservas se cargan aquí -->
-                    </div>
+                    <h2>📅 Calendario de Reservas</h2>
+                    <p>Gregorio Style - Panel de Administración</p>
+                </div>
+                <button onclick="togglePanelAdmin()" class="admin-close-btn">
+                    ✕ Cerrar
+                </button>
+            </div>
+
+            <div class="admin-filters">
+                <div class="filter-group">
+                    <label>📅 Filtrar por Fecha</label>
+                    <input type="date" id="filtroFecha" onchange="filtrarReservas()">
+                </div>
+                <div class="filter-group">
+                    <label>💈 Filtrar por Barbero</label>
+                    <select id="filtroBarbero" onchange="filtrarReservas()">
+                        <option value="">Todos los barberos</option>
+                        <option value="Roberto Carlos">Roberto Carlos</option>
+                        <option value="Kevin Canaviri">Kevin Canaviri</option>
+                    </select>
+                </div>
+                <button onclick="cargarCalendario()" class="admin-refresh-btn">
+                    🔄 Actualizar
+                </button>
+            </div>
+
+            <div id="estadisticas" class="admin-stats">
+                <!-- Las estadísticas se cargan con JavaScript -->
+            </div>
+
+            <div class="admin-reservas">
+                <h3>📋 Lista de Reservas</h3>
+                <div id="listaReservas">
+                    <!-- Las reservas se cargan aquí -->
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/animaciones.js"></script>
-    
-    <script>
-        // Script para manejar la selección de servicios
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configurar eventos para las opciones de servicio
-            const serviceOptions = document.querySelectorAll('.service-option');
-            
-            serviceOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    serviceOptions.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const radio = this.querySelector('input');
-                    if (radio) {
-                        radio.checked = true;
-                        actualizarResumenReserva();
-                    }
-                });
-            });
-
-            // Configurar fecha mínima en el input de fecha
-            const fechaInput = document.getElementById('booking-date');
-            if (fechaInput) {
-                const today = new Date().toISOString().split('T')[0];
-                fechaInput.min = today;
-                fechaInput.value = today;
-            }
-
-            // Cargar horarios iniciales
-            cargarHorarios();
-        });
-
-        function cargarHorarios() {
-            const timeSelect = document.getElementById('booking-time');
-            if (!timeSelect) return;
-            
-            const horarios = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
-            
-            timeSelect.innerHTML = '<option value="">Selecciona hora</option>';
-            horarios.forEach(hora => {
-                const option = document.createElement('option');
-                option.value = hora;
-                option.textContent = hora;
-                timeSelect.appendChild(option);
-            });
-        }
-
-        function actualizarResumenReserva() {
-            const summary = document.getElementById('booking-details');
-            if (!summary) return;
-            
-            const form = document.getElementById('booking-form');
-            if (!form) return;
-            
-            const formData = new FormData(form);
-            let html = '';
-            
-            const servicioId = formData.get('service');
-            if (servicioId) {
-                const servicioOption = document.querySelector(`#service-${servicioId}`);
-                if (servicioOption) {
-                    const label = servicioOption.querySelector('label');
-                    const servicioNombre = label.querySelector('strong').textContent;
-                    const precio = label.querySelector('.price-tag').textContent;
-                    const duracion = label.querySelector('.duration').textContent;
-                    
-                    html += `<p><strong>Servicio:</strong> ${servicioNombre}</p>`;
-                    html += `<p><strong>Precio:</strong> <span style="color: #D4AF37; font-weight: bold;">${precio}</span></p>`;
-                    html += `<p><strong>Duración:</strong> ${duracion}</p>`;
-                }
-            }
-            
-            const estilistaId = formData.get('stylist');
-            if (estilistaId) {
-                if (estilistaId === 'any') {
-                    html += `<p><strong>Barbero:</strong> Cualquiera disponible</p>`;
-                } else {
-                    const estilistaOption = document.querySelector(`input[name="stylist"][value="${estilistaId}"]`);
-                    if (estilistaOption) {
-                        const estilistaNombre = estilistaOption.parentElement.querySelector('span').textContent;
-                        html += `<p><strong>Barbero:</strong> ${estilistaNombre}</p>`;
-                    }
-                }
-            }
-            
-            const fecha = formData.get('booking-date');
-            const hora = formData.get('booking-time');
-            if (fecha && hora) {
-                html += `<p><strong>Fecha:</strong> ${formatearFecha(fecha)}</p>`;
-                html += `<p><strong>Hora:</strong> ${hora}</p>`;
-            }
-            
-            const nombre = formData.get('nombre');
-            const telefono = formData.get('telefono');
-            const email = formData.get('email');
-            
-            if (nombre) html += `<p><strong>Nombre:</strong> ${nombre}</p>`;
-            if (telefono) html += `<p><strong>Teléfono:</strong> ${telefono}</p>`;
-            if (email) html += `<p><strong>Email:</strong> ${email}</p>`;
-            
-            summary.innerHTML = html || '<p>Selecciona los detalles de tu cita</p>';
-        }
-
-        function formatearFecha(fechaString) {
-            const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(fechaString + 'T00:00:00').toLocaleDateString('es-ES', opciones);
-        }
-
-        // Funciones del formulario multipaso
-        let currentStep = 1;
-
-        function nextStep(step) {
-            if (validarPasoActual(currentStep)) {
-                document.getElementById(`step-${currentStep}`).classList.remove('active');
-                document.getElementById(`step-${step}`).classList.add('active');
-                currentStep = step;
-                actualizarResumenReserva();
-            }
-        }
-
-        function prevStep(step) {
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
-            document.getElementById(`step-${step}`).classList.add('active');
-            currentStep = step;
-            actualizarResumenReserva();
-        }
-
-        function validarPasoActual(paso) {
-            const forms = {
-                1: () => !!document.querySelector('input[name="service"]:checked'),
-                2: () => !!document.querySelector('input[name="stylist"]:checked'),
-                3: () => {
-                    const fecha = document.getElementById('booking-date').value;
-                    const hora = document.getElementById('booking-time').value;
-                    return fecha && hora;
-                },
-                4: () => {
-                    const nombre = document.querySelector('input[name="nombre"]')?.value;
-                    const telefono = document.querySelector('input[name="telefono"]')?.value;
-                    const email = document.querySelector('input[name="email"]')?.value;
-                    
-                    if (!nombre || !telefono || !email) return false;
-                    if (!validarEmail(email)) return false;
-                    if (telefono.replace(/\D/g, '').length < 8) return false;
-                    
-                    return true;
-                }
-            };
-
-            if (!forms[paso]()) {
-                alert(`Por favor completa todos los campos requeridos en este paso`);
-                return false;
-            }
-            
-            return true;
-        }
-
-        function validarEmail(email) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
-        }
-
-        // Hacer las funciones globales
-        window.nextStep = nextStep;
-        window.prevStep = prevStep;
-        window.actualizarResumenReserva = actualizarResumenReserva;
-    </script>
+    <script src="main.js"></script>
+    <script src="animaciones.js"></script>
 </body>
 </html>
