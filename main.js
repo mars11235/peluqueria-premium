@@ -1430,3 +1430,212 @@ window.eliminarReserva = function(id) {
 };
 
 console.log('🚀 Barbershop Gregorio Style - Sistema optimizado y listo!');
+
+
+// ===== AGREGAR AL INICIO DE main.js DESPUÉS DE LAS CONSTANTES =====
+
+// NUEVO: Sistema de favoritos
+const serviciosFavoritos = JSON.parse(localStorage.getItem('servicios_favoritos')) || [];
+
+// ===== AGREGAR EN initApp() =====
+function initApp() {
+    cargarServicios();
+    cargarHorarios();
+    inicializarNavegacion();
+    inicializarFormularioReserva();
+    inicializarFiltrosServicios();
+    setupScrollAnimations();
+    inicializarMobileFeatures();
+    inicializarSistemaReservas();
+    
+    // NUEVO: Inicializar mejoras
+    inicializarNavegacionSticky();
+    inicializarProgresoReserva();
+    inicializarFavoritos();
+}
+
+// ===== NUEVAS FUNCIONES PARA MEJORAR USABILIDAD =====
+
+// 1. Navegación sticky de categorías
+function inicializarNavegacionSticky() {
+    const categoriesHTML = `
+        <div class="services-navigation">
+            <div class="category-quick-nav">
+                <button class="quick-category-btn active" data-category="all">⭐ Todos</button>
+                <button class="quick-category-btn" data-category="clasico">✂️ Clásicos</button>
+                <button class="quick-category-btn" data-category="fade">💈 Fades</button>
+                <button class="quick-category-btn" data-category="diseno">🎨 Diseño</button>
+                <button class="quick-category-btn" data-category="barba">🧔 Barba</button>
+                <button class="quick-category-btn" data-category="estetica">✨ Estética</button>
+                <button class="quick-category-btn" data-category="paquete">📦 Paquetes</button>
+            </div>
+        </div>
+    `;
+
+    const servicesSection = document.querySelector('.services');
+    if (servicesSection) {
+        const categoriesContainer = servicesSection.querySelector('.services-categories');
+        if (categoriesContainer) {
+            categoriesContainer.insertAdjacentHTML('afterend', categoriesHTML);
+            setupQuickNavigation();
+        }
+    }
+}
+
+function setupQuickNavigation() {
+    const quickBtns = document.querySelectorAll('.quick-category-btn');
+    
+    quickBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            quickBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const categoria = this.getAttribute('data-category');
+            filtrarServicios(categoria);
+            
+            // Scroll suave a la sección
+            document.querySelector('.services').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+}
+
+// 2. Indicador de progreso de reserva
+function inicializarProgresoReserva() {
+    const progressHTML = `
+        <div class="booking-progress">
+            <div class="progress-step">
+                <div class="step-indicator active">1</div>
+                <div class="step-label active">Servicio</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-indicator">2</div>
+                <div class="step-label">Barbero</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-indicator">3</div>
+                <div class="step-label">Fecha/Hora</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-indicator">4</div>
+                <div class="step-label">Confirmar</div>
+            </div>
+        </div>
+    `;
+
+    const bookingForm = document.querySelector('.booking-form');
+    if (bookingForm) {
+        bookingForm.insertAdjacentHTML('afterbegin', progressHTML);
+    }
+}
+
+// Actualizar progreso
+function actualizarProgresoReserva(paso) {
+    const indicators = document.querySelectorAll('.step-indicator');
+    const labels = document.querySelectorAll('.step-label');
+    
+    indicators.forEach((indicator, index) => {
+        if (index < paso) {
+            indicator.classList.add('active');
+            labels[index].classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+            labels[index].classList.remove('active');
+        }
+    });
+}
+
+// 3. Sistema de favoritos
+function inicializarFavoritos() {
+    // Agregar botones de favorito a las tarjetas de servicio
+    setTimeout(() => {
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            const servicio = servicios[index];
+            if (servicio) {
+                const favoriteBtn = document.createElement('button');
+                favoriteBtn.className = 'favorite-btn';
+                favoriteBtn.innerHTML = serviciosFavoritos.includes(servicio.id) ? '❤️' : '🤍';
+                favoriteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleFavorito(servicio.id, favoriteBtn);
+                };
+                
+                card.style.position = 'relative';
+                card.appendChild(favoriteBtn);
+            }
+        });
+    }, 1000);
+}
+
+function toggleFavorito(servicioId, boton) {
+    const index = serviciosFavoritos.indexOf(servicioId);
+    
+    if (index > -1) {
+        serviciosFavoritos.splice(index, 1);
+        boton.innerHTML = '🤍';
+    } else {
+        serviciosFavoritos.push(servicioId);
+        boton.innerHTML = '❤️';
+    }
+    
+    localStorage.setItem('servicios_favoritos', JSON.stringify(serviciosFavoritos));
+    mostrarAlerta('Favoritos actualizados', 'success');
+}
+
+// ===== MODIFICAR LAS FUNCIONES EXISTENTES =====
+
+// En nextStep y prevStep, agregar actualización de progreso
+function nextStep(step) {
+    if (validarPasoActual(currentStep)) {
+        document.getElementById(`step-${currentStep}`).classList.remove('active');
+        document.getElementById(`step-${step}`).classList.add('active');
+        currentStep = step;
+        actualizarResumenReserva();
+        actualizarProgresoReserva(step); // NUEVO
+        
+        if (step === 3) {
+            setTimeout(actualizarHorariosDisponibles, 100);
+        }
+    }
+}
+
+function prevStep(step) {
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`step-${step}`).classList.add('active');
+    currentStep = step;
+    actualizarResumenReserva();
+    actualizarProgresoReserva(step); // NUEVO
+}
+
+// ===== AGREGAR ESTILOS PARA FAVORITOS =====
+const favoriteStyles = `
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+    
+    .favorite-btn:hover {
+        background: rgba(212, 175, 55, 0.9);
+        transform: scale(1.1);
+    }
+`;
+
+// Inyectar estilos
+const styleSheet = document.createElement('style');
+styleSheet.textContent = favoriteStyles;
+document.head.appendChild(styleSheet);
