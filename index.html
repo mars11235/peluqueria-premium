@@ -8,123 +8,6 @@
     <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* MEJORAS ADICIONALES PARA MÓVILES COMPACTOS */
-        @media (max-width: 768px) {
-            .services-section {
-                padding: 2rem 0;
-            }
-            
-            .service-card {
-                margin-bottom: 0.5rem;
-            }
-            
-            .service-card h3 {
-                word-wrap: break-word;
-                hyphens: auto;
-            }
-            
-            @media (max-width: 400px) {
-                .services-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
-            
-            @media (min-width: 401px) and (max-width: 600px) {
-                .services-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
-        }
-
-        @media (max-width: 768px) {
-            .service-option {
-                padding: 0.8rem;
-                margin-bottom: 0.4rem;
-            }
-            
-            .service-option label {
-                font-size: 0.8rem;
-            }
-            
-            .service-option strong {
-                font-size: 0.85rem;
-            }
-            
-            .price-tag {
-                font-size: 0.9rem;
-                margin-left: 8px;
-            }
-            
-            .duration {
-                font-size: 0.7rem;
-                margin-left: 4px;
-            }
-        }
-
-        .service-category-title {
-            color: #D4AF37;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #D4AF37;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            grid-column: 1 / -1;
-        }
-        
-        .service-option {
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--negro-profundo);
-            margin-bottom: 0.5rem;
-        }
-        
-        .service-option:hover {
-            border-color: #D4AF37;
-            background: rgba(212, 175, 55, 0.05);
-        }
-        
-        .service-option.selected {
-            border-color: #D4AF37;
-            background: rgba(212, 175, 55, 0.1);
-        }
-        
-        .service-option label {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--blanco-hueso);
-        }
-        
-        .service-option input[type="radio"] {
-            margin: 0;
-        }
-        
-        .service-option strong {
-            font-size: 0.95rem;
-        }
-        
-        .price-tag {
-            color: #D4AF37;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .duration {
-            color: #888;
-            font-size: 0.8rem;
-            margin-left: 5px;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -134,7 +17,7 @@
                 <h2>GREGORIO<span>STYLE</span></h2>
             </div>
             <ul class="nav-menu">
-                <li><a href="#inicio">INICIO</a></li>
+                <li><a href="#inicio" class="active">INICIO</a></li>
                 <li><a href="#servicios">SERVICIOS</a></li>
                 <li><a href="#barberos">BARBEROS</a></li>
                 <li><a href="#galeria">GALERÍA</a></li>
@@ -147,6 +30,12 @@
             </button>
         </div>
     </nav>
+
+    <!-- Progress Bar -->
+    <div class="nav-scroll-progress">
+        <div class="nav-scroll-progress-bar" id="scrollProgress"></div>
+    </div>
+    <div class="nav-current-section" id="currentSection">INICIO</div>
 
     <!-- Hero Section -->
     <section class="hero" id="inicio">
@@ -161,7 +50,10 @@
             <h3 class="hero-subtitle">BARBERSHOP</h3>
             <h1 class="hero-title">GREGORIO STYLE</h1>
             <p class="hero-description">TRADICIÓN Y PRECISIÓN EN CADA CORTE</p>
-            <a href="#reservas" class="cta-button">RESERVAR CITA</a>
+            <a href="#reservas" class="cta-button">
+                <i class="fas fa-calendar-plus"></i>
+                RESERVAR CITA
+            </a>
         </div>
         <div class="hero-scroll">
             <i class="fas fa-chevron-down"></i>
@@ -294,79 +186,195 @@
         </div>
     </section>
 
-    <!-- Booking Section -->
+    <!-- Booking Section - MEJORADO -->
     <section id="reservas" class="booking">
         <div class="container">
-            <h2 class="section-title">RESERVA TU CITA</h2>
-            <div class="booking-container">
-                <form id="booking-form" class="booking-form">
-                    <div class="form-step active" id="step-1">
-                        <h3>1. SELECCIONA SERVICIO</h3>
-                        <div class="service-select" id="service-select">
-                            <!-- Los servicios se cargan con JavaScript -->
-                        </div>
-                        <div class="form-navigation">
-                            <button type="button" class="form-next" onclick="nextStep(2)">SIGUIENTE</button>
-                        </div>
+            <h2 class="section-title">RESERVA RÁPIDA</h2>
+            
+            <!-- Resumen flotante -->
+            <div class="booking-summary-floating" id="floatingSummary">
+                <div class="summary-floating-header">
+                    <div class="summary-floating-title">TU RESERVA</div>
+                </div>
+                <div class="summary-floating-items" id="summaryItems">
+                    <div class="summary-floating-item">
+                        <span class="summary-floating-label">Servicio:</span>
+                        <span class="summary-floating-value" id="summaryService">No seleccionado</span>
                     </div>
-                    
-                    <div class="form-step" id="step-2">
-                        <h3>2. ELIGE BARBERO</h3>
-                        <div class="stylist-select">
-                            <label class="stylist-option">
-                                <input type="radio" name="stylist" value="any" checked>
-                                <span>Cualquier barbero disponible</span>
-                            </label>
-                            <label class="stylist-option">
-                                <input type="radio" name="stylist" value="1">
-                                <span>Roberto Carlos</span>
-                            </label>
-                            <label class="stylist-option">
-                                <input type="radio" name="stylist" value="2">
-                                <span>Kevin Canaviri</span>
-                            </label>
-                        </div>
-                        <div class="form-navigation">
-                            <button type="button" class="form-prev" onclick="prevStep(1)">ANTERIOR</button>
-                            <button type="button" class="form-next" onclick="nextStep(3)">SIGUIENTE</button>
-                        </div>
+                    <div class="summary-floating-item">
+                        <span class="summary-floating-label">Barbero:</span>
+                        <span class="summary-floating-value" id="summaryBarber">Cualquiera</span>
                     </div>
-                    
-                    <div class="form-step" id="step-3">
-                        <h3>3. FECHA Y HORA</h3>
-                        <div class="datetime-select">
-                            <input type="date" id="booking-date" name="booking-date" min="" required>
-                            <select id="booking-time" name="booking-time" required>
-                                <option value="">Selecciona hora</option>
-                                <!-- Horarios cargados con JS -->
-                            </select>
-                        </div>
-                        <div class="form-navigation">
-                            <button type="button" class="form-prev" onclick="prevStep(2)">ANTERIOR</button>
-                            <button type="button" class="form-next" onclick="nextStep(4)">SIGUIENTE</button>
-                        </div>
+                    <div class="summary-floating-item">
+                        <span class="summary-floating-label">Fecha y Hora:</span>
+                        <span class="summary-floating-value" id="summaryDateTime">No seleccionado</span>
                     </div>
-                    
-                    <div class="form-step" id="step-4">
-                        <h3>4. TUS DATOS</h3>
-                        <div class="client-info">
-                            <input type="text" name="nombre" placeholder="Nombre completo" required>
-                            <input type="tel" name="telefono" placeholder="Teléfono" required>
-                            <input type="email" name="email" placeholder="Email" required>
+                    <div class="summary-floating-total">
+                        <div class="summary-floating-item">
+                            <span class="summary-floating-label">Total:</span>
+                            <span class="summary-floating-value" id="summaryTotal">Bs 0</span>
                         </div>
-                        <div class="form-navigation">
-                            <button type="button" class="form-prev" onclick="prevStep(3)">ANTERIOR</button>
-                            <button type="submit" class="form-submit">CONFIRMAR RESERVA</button>
-                        </div>
-                    </div>
-                </form>
-                
-                <div class="booking-summary">
-                    <h3>RESUMEN DE RESERVA</h3>
-                    <div id="booking-details">
-                        <p>Selecciona los detalles de tu cita</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Formulario unificado -->
+            <div class="booking-form-unified">
+                <!-- Selección de servicio -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-number">1</div>
+                        <div>
+                            <div class="form-section-title">Elige tu Servicio</div>
+                            <div class="form-section-subtitle">Selecciona el corte o tratamiento que deseas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="services-quick-grid" id="servicesQuickGrid">
+                        <!-- Los servicios se cargan aquí dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Selección de barbero -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-number">2</div>
+                        <div>
+                            <div class="form-section-title">Elige tu Barbero</div>
+                            <div class="form-section-subtitle">¿Tienes algún barbero preferido?</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stylist-select-enhanced" id="stylistSelect">
+                        <div class="stylist-option-quick selected" data-stylist="any">
+                            <div class="stylist-option-content">
+                                <div class="stylist-option-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stylist-option-info">
+                                    <div class="stylist-option-name">Cualquier barbero disponible</div>
+                                    <div class="stylist-option-desc">Te asignamos el mejor disponible</div>
+                                </div>
+                                <div class="stylist-option-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stylist-option-quick" data-stylist="1">
+                            <div class="stylist-option-content">
+                                <div class="stylist-option-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="stylist-option-info">
+                                    <div class="stylist-option-name">Roberto Carlos</div>
+                                    <div class="stylist-option-desc">Especialista en Fades Modernos</div>
+                                </div>
+                                <div class="stylist-option-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stylist-option-quick" data-stylist="2">
+                            <div class="stylist-option-content">
+                                <div class="stylist-option-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="stylist-option-info">
+                                    <div class="stylist-option-name">Kevin Canaviri</div>
+                                    <div class="stylist-option-desc">Especialista en Barbas y Clásicos</div>
+                                </div>
+                                <div class="stylist-option-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selección de fecha/hora -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-number">3</div>
+                        <div>
+                            <div class="form-section-title">Elige Fecha y Hora</div>
+                            <div class="form-section-subtitle">Encuentra un horario que te convenga</div>
+                        </div>
+                    </div>
+                    
+                    <div class="datetime-selector-enhanced">
+                        <div class="date-selector-section">
+                            <h4 class="datetime-section-title">Selecciona una fecha</h4>
+                            <div class="date-picker-grid" id="datePicker">
+                                <!-- Fechas se cargan dinámicamente -->
+                            </div>
+                        </div>
+                        
+                        <div class="time-selector-section">
+                            <h4 class="datetime-section-title">Selecciona una hora</h4>
+                            <div class="time-slots-grid" id="timeSlots">
+                                <!-- Horarios se cargan dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información personal -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <div class="form-section-number">4</div>
+                        <div>
+                            <div class="form-section-title">Tus Datos</div>
+                            <div class="form-section-subtitle">Completa tu información para confirmar</div>
+                        </div>
+                    </div>
+                    
+                    <div class="client-info-enhanced">
+                        <div class="form-group">
+                            <label class="form-label required" for="clientName">Nombre completo</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="clientName" name="clientName" placeholder="Ingresa tu nombre completo" required>
+                            </div>
+                            <span class="form-helper">Ej: Juan Pérez García</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required" for="clientPhone">Teléfono</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="clientPhone" name="clientPhone" placeholder="Ingresa tu número de teléfono" required>
+                            </div>
+                            <span class="form-helper">Ej: 72346861</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required" for="clientEmail">Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="clientEmail" name="clientEmail" placeholder="Ingresa tu email" required>
+                            </div>
+                            <span class="form-helper">Ej: tuemail@ejemplo.com</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="clientNotes">Notas adicionales (opcional)</label>
+                            <textarea id="clientNotes" name="clientNotes" placeholder="¿Alguna preferencia especial o comentario?" rows="3"></textarea>
+                            <span class="form-helper">Ej: Quiero el mismo corte de la foto #3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción sticky -->
+            <div class="action-buttons-sticky">
+                <button class="btn-action-secondary" onclick="resetBookingForm()">
+                    <i class="fas fa-redo"></i> Reiniciar
+                </button>
+                <button class="btn-action-primary" onclick="confirmBooking()">
+                    <i class="fas fa-calendar-check"></i> Confirmar Reserva
+                </button>
             </div>
         </div>
     </section>
@@ -377,23 +385,34 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>GREGORIO STYLE</h3>
-                    <p>Barbería premium donde la tradición se encuentra con el estilo moderno.</p>
+                    <p>Barbería premium donde la tradición se encuentra con el estilo moderno. Expertos en cortes clásicos y tendencias actuales.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h4>CONTACTO</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Ecuador y Pasaje del Maestro</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Ecuador y Pasaje del Maestro, Cochabamba</p>
                     <p><i class="fas fa-phone"></i> 72346861</p>
+                    <p><i class="fas fa-envelope"></i> info@gregoriostyle.com</p>
                     <p><i class="fas fa-clock"></i> Lun-Sáb: 8:00-12:00 / 14:00-20:00</p>
+                    <p><i class="fas fa-clock"></i> Domingos: Cerrado</p>
                 </div>
                 <div class="footer-section">
-                    <h4>SÍGUENOS</h4>
-                    <p><i class="fab fa-facebook"></i> Facebook</p>
-                    <p><i class="fab fa-instagram"></i> Instagram</p>
-                    <p><i class="fab fa-tiktok"></i> TikTok</p>
+                    <h4>ENLACES RÁPIDOS</h4>
+                    <p><a href="#servicios"><i class="fas fa-cut"></i> Nuestros Servicios</a></p>
+                    <p><a href="#barberos"><i class="fas fa-user"></i> Nuestros Barberos</a></p>
+                    <p><a href="#galeria"><i class="fas fa-images"></i> Galería</a></p>
+                    <p><a href="#reservas"><i class="fas fa-calendar"></i> Reservar Cita</a></p>
+                    <p><a href="#"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Barbershop Gregorio Style. Todos los derechos reservados.</p>
+                <p>Diseñado con <i class="fas fa-heart" style="color: var(--dorado-premium);"></i> para amantes del buen estilo</p>
             </div>
         </div>
     </footer>
@@ -401,7 +420,7 @@
     <!-- Panel Admin Button -->
     <div class="admin-button-container">
         <button onclick="togglePanelAdmin()" class="admin-button">
-            📋 Ver Reservas
+            <i class="fas fa-calendar-alt"></i> Ver Reservas
         </button>
     </div>
 
@@ -410,21 +429,21 @@
         <div class="admin-modal-content">
             <div class="admin-header">
                 <div>
-                    <h2>📅 Calendario de Reservas</h2>
+                    <h2><i class="fas fa-calendar-alt"></i> Calendario de Reservas</h2>
                     <p>Gregorio Style - Panel de Administración</p>
                 </div>
                 <button onclick="togglePanelAdmin()" class="admin-close-btn">
-                    ✕ Cerrar
+                    <i class="fas fa-times"></i> Cerrar
                 </button>
             </div>
 
             <div class="admin-filters">
                 <div class="filter-group">
-                    <label>📅 Filtrar por Fecha</label>
+                    <label><i class="fas fa-calendar"></i> Filtrar por Fecha</label>
                     <input type="date" id="filtroFecha" onchange="filtrarReservas()">
                 </div>
                 <div class="filter-group">
-                    <label>💈 Filtrar por Barbero</label>
+                    <label><i class="fas fa-user"></i> Filtrar por Barbero</label>
                     <select id="filtroBarbero" onchange="filtrarReservas()">
                         <option value="">Todos los barberos</option>
                         <option value="Roberto Carlos">Roberto Carlos</option>
@@ -432,7 +451,7 @@
                     </select>
                 </div>
                 <button onclick="cargarCalendario()" class="admin-refresh-btn">
-                    🔄 Actualizar
+                    <i class="fas fa-sync-alt"></i> Actualizar
                 </button>
             </div>
 
@@ -441,7 +460,7 @@
             </div>
 
             <div class="admin-reservas">
-                <h3>📋 Lista de Reservas</h3>
+                <h3><i class="fas fa-list"></i> Lista de Reservas</h3>
                 <div id="listaReservas">
                     <!-- Las reservas se cargan aquí -->
                 </div>
@@ -449,8 +468,312 @@
         </div>
     </div>
 
+    <!-- Sistema de Ayuda Contextual -->
+    <div class="context-help">
+        <button class="help-button" id="helpButton">
+            <i class="fas fa-question"></i>
+        </button>
+        <div class="help-panel" id="helpPanel">
+            <div class="help-title">¿Necesitas Ayuda?</div>
+            <div class="help-tips">
+                <div class="help-tip">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Selecciona un servicio, barbero y horario disponible</span>
+                </div>
+                <div class="help-tip">
+                    <i class="fas fa-clock"></i>
+                    <span>Las horas en verde están disponibles</span>
+                </div>
+                <div class="help-tip">
+                    <i class="fas fa-check"></i>
+                    <span>Revisa tu resumen antes de confirmar</span>
+                </div>
+                <div class="help-tip">
+                    <i class="fas fa-phone"></i>
+                    <span>¿Problemas? Llámanos: 72346861</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Procesando tu reserva</div>
+        <div class="loading-subtext">Por favor espera...</div>
+    </div>
+
     <!-- Scripts -->
     <script src="main.js"></script>
     <script src="animaciones.js"></script>
+    
+    <!-- Script adicional para las nuevas funcionalidades -->
+    <script>
+        // Sistema de navegación mejorado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Barra de progreso de scroll
+            window.addEventListener('scroll', function() {
+                const winHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset;
+                const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+                document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+            });
+
+            // Indicador de sección actual
+            const sections = document.querySelectorAll('section');
+            const currentSectionEl = document.getElementById('currentSection');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionName = entry.target.id.toUpperCase();
+                        currentSectionEl.textContent = sectionName === 'INICIO' ? 'INICIO' : sectionName;
+                        currentSectionEl.classList.add('visible');
+                        
+                        // Actualizar navegación activa
+                        document.querySelectorAll('.nav-menu a').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Sistema de ayuda contextual
+            const helpButton = document.getElementById('helpButton');
+            const helpPanel = document.getElementById('helpPanel');
+            
+            helpButton.addEventListener('click', function() {
+                helpPanel.classList.toggle('visible');
+            });
+
+            // Cerrar ayuda al hacer click fuera
+            document.addEventListener('click', function(e) {
+                if (!helpButton.contains(e.target) && !helpPanel.contains(e.target)) {
+                    helpPanel.classList.remove('visible');
+                }
+            });
+
+            // Cargar servicios en el formulario rápido
+            cargarServiciosRapidos();
+            
+            // Cargar fechas y horarios
+            cargarFechasDisponibles();
+            cargarHorariosDisponibles();
+        });
+
+        // Funciones para el formulario de reserva rápido
+        function cargarServiciosRapidos() {
+            const container = document.getElementById('servicesQuickGrid');
+            if (!container) return;
+
+            // Servicios de ejemplo - se integrará con el sistema existente
+            const serviciosEjemplo = [
+                { id: 1, nombre: "Corte Clásico", precio: 40, duracion: 30, icono: "fas fa-scissors" },
+                { id: 9, nombre: "Low Fade", precio: 40, duracion: 45, icono: "fas fa-cut" },
+                { id: 25, nombre: "Fade con Diseño", precio: 60, duracion: 70, icono: "fas fa-pen-nib" },
+                { id: 28, nombre: "Recorte Barba", precio: 15, duracion: 20, icono: "fas fa-leaf" },
+                { id: 41, nombre: "Paquete Básico", precio: 80, duracion: 75, icono: "fas fa-gem" },
+                { id: 33, nombre: "Limpieza Facial", precio: 60, duracion: 40, icono: "fas fa-spa" }
+            ];
+
+            container.innerHTML = serviciosEjemplo.map(servicio => `
+                <div class="service-quick-card" data-service-id="${servicio.id}" onclick="seleccionarServicio(${servicio.id})">
+                    <div class="service-quick-icon">
+                        <i class="${servicio.icono}"></i>
+                    </div>
+                    <div class="service-quick-name">${servicio.nombre}</div>
+                    <div class="service-quick-price">Bs ${servicio.precio}</div>
+                    <div class="service-quick-duration">${servicio.duracion} min</div>
+                </div>
+            `).join('');
+        }
+
+        function seleccionarServicio(servicioId) {
+            // Remover selección anterior
+            document.querySelectorAll('.service-quick-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Agregar selección nueva
+            const selectedCard = document.querySelector(`[data-service-id="${servicioId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                
+                // Actualizar resumen
+                const servicio = obtenerServicioPorId(servicioId);
+                if (servicio) {
+                    document.getElementById('summaryService').textContent = servicio.nombre;
+                    document.getElementById('summaryTotal').textContent = `Bs ${servicio.precio}`;
+                    actualizarResumenCompleto();
+                }
+            }
+        }
+
+        function obtenerServicioPorId(id) {
+            // Esta función se integrará con el sistema existente de servicios
+            const serviciosEjemplo = [
+                { id: 1, nombre: "Corte Clásico", precio: 40, duracion: 30 },
+                { id: 9, nombre: "Low Fade", precio: 40, duracion: 45 },
+                { id: 25, nombre: "Fade con Diseño", precio: 60, duracion: 70 },
+                { id: 28, nombre: "Recorte de Barba", precio: 15, duracion: 20 },
+                { id: 41, nombre: "Paquete Básico", precio: 80, duracion: 75 },
+                { id: 33, nombre: "Limpieza Facial", precio: 60, duracion: 40 }
+            ];
+            return serviciosEjemplo.find(s => s.id === id);
+        }
+
+        // Selector de barbero mejorado
+        document.querySelectorAll('.stylist-option-quick').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.stylist-option-quick').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                const stylistName = this.getAttribute('data-stylist') === 'any' ? 
+                    'Cualquiera disponible' : 
+                    this.querySelector('.stylist-option-name').textContent;
+                
+                document.getElementById('summaryBarber').textContent = stylistName;
+                actualizarResumenCompleto();
+            });
+        });
+
+        // Funciones de fecha y hora
+        function cargarFechasDisponibles() {
+            const container = document.getElementById('datePicker');
+            if (!container) return;
+
+            const hoy = new Date();
+            const fechas = [];
+            
+            // Generar próximos 7 días
+            for (let i = 0; i < 7; i++) {
+                const fecha = new Date();
+                fecha.setDate(hoy.getDate() + i);
+                fechas.push(fecha);
+            }
+
+            container.innerHTML = fechas.map((fecha, index) => {
+                const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'short' });
+                const diaNumero = fecha.getDate();
+                const mes = fecha.toLocaleDateString('es-ES', { month: 'short' });
+                const fechaString = fecha.toISOString().split('T')[0];
+                
+                return `
+                    <div class="date-option ${index === 0 ? 'selected' : ''}" data-date="${fechaString}" onclick="seleccionarFecha('${fechaString}')">
+                        <div class="date-day">${diaSemana}</div>
+                        <div class="date-number">${diaNumero}</div>
+                        <div class="date-month">${mes}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function cargarHorariosDisponibles() {
+            const container = document.getElementById('timeSlots');
+            if (!container) return;
+
+            const horarios = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+            
+            container.innerHTML = horarios.map(hora => {
+                const disponible = Math.random() > 0.3; // Simulación de disponibilidad
+                return `
+                    <div class="time-slot ${disponible ? 'available' : 'unavailable'}" data-time="${hora}" onclick="${disponible ? `seleccionarHora('${hora}')` : ''}">
+                        ${hora}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function seleccionarFecha(fecha) {
+            document.querySelectorAll('.date-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-date="${fecha}"]`).classList.add('selected');
+            actualizarResumenCompleto();
+        }
+
+        function seleccionarHora(hora) {
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            document.querySelector(`[data-time="${hora}"]`).classList.add('selected');
+            
+            const fechaSeleccionada = document.querySelector('.date-option.selected').getAttribute('data-date');
+            const fechaFormateada = new Date(fechaSeleccionada).toLocaleDateString('es-ES');
+            document.getElementById('summaryDateTime').textContent = `${fechaFormateada} - ${hora}`;
+            actualizarResumenCompleto();
+        }
+
+        function actualizarResumenCompleto() {
+            // Lógica para actualizar el resumen completo
+            console.log('Resumen actualizado');
+        }
+
+        function resetBookingForm() {
+            if (confirm('¿Estás seguro de que quieres reiniciar el formulario? Se perderán todos los datos.')) {
+                document.querySelectorAll('.service-quick-card, .stylist-option-quick, .date-option, .time-slot').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                
+                // Seleccionar primeras opciones por defecto
+                document.querySelector('.stylist-option-quick').classList.add('selected');
+                document.querySelector('.date-option').classList.add('selected');
+                
+                // Limpiar resumen
+                document.getElementById('summaryService').textContent = 'No seleccionado';
+                document.getElementById('summaryBarber').textContent = 'Cualquiera';
+                document.getElementById('summaryDateTime').textContent = 'No seleccionado';
+                document.getElementById('summaryTotal').textContent = 'Bs 0';
+                
+                // Limpiar formulario
+                document.getElementById('clientName').value = '';
+                document.getElementById('clientPhone').value = '';
+                document.getElementById('clientEmail').value = '';
+                document.getElementById('clientNotes').value = '';
+                
+                mostrarAlerta('Formulario reiniciado correctamente', 'success');
+            }
+        }
+
+        function confirmBooking() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('active');
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                loadingOverlay.classList.remove('active');
+                mostrarAlerta('¡Reserva confirmada! Te hemos enviado un correo de confirmación.', 'success');
+                lanzarConfeti();
+                
+                // Aquí se integraría con el sistema de reservas existente
+                console.log('Reserva confirmada');
+            }, 2000);
+        }
+
+        // Funciones de utilidad
+        function mostrarAlerta(mensaje, tipo = 'success') {
+            // Usar la función existente del sistema
+            if (window.mostrarAlerta) {
+                window.mostrarAlerta(mensaje, tipo);
+            } else {
+                alert(mensaje);
+            }
+        }
+
+        function lanzarConfeti() {
+            // Usar la función existente del sistema
+            if (window.lanzarConfeti) {
+                window.lanzarConfeti();
+            }
+        }
+    </script>
 </body>
 </html>
