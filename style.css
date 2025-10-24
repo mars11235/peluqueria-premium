@@ -1694,3 +1694,88 @@ input:focus, select:focus {
         box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
     }
 }
+
+
+/* ===== CORRECCIONES ESPECÍFICAS ===== */
+
+/* Asegurar que los servicios se muestren correctamente */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+    width: 100%;
+}
+
+/* Mejorar la navegación sticky */
+.services-navigation {
+    position: sticky;
+    top: 80px;
+    background: var(--negro-profundo);
+    z-index: 99;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--gris-carbón);
+}
+
+/* Corregir el formulario de reservas */
+.booking-form {
+    width: 100%;
+}
+
+.form-step {
+    width: 100%;
+}
+
+/* Mejorar la responsividad del panel admin */
+@media (max-width: 768px) {
+    .admin-modal-content {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+    
+    .admin-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Asegurar que los botones sean clickeables en móvil */
+@media (max-width: 768px) {
+    button, 
+    .cta-button,
+    .form-next,
+    .form-prev,
+    .form-submit {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Corregir problemas de visualización en móviles pequeños */
+@media (max-width: 480px) {
+    .service-card {
+        min-height: auto;
+        padding: 1rem;
+    }
+    
+    .service-features {
+        display: none; /* Ocultar en móviles muy pequeños para ahorrar espacio */
+    }
+}
+
+/* Asegurar que el video de fondo funcione correctamente */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
+}

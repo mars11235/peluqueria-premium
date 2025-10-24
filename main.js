@@ -1,417 +1,17 @@
-// ===== DATOS ACTUALIZADOS DE LA BARBERÍA =====
-const servicios = [
-    // ===== CORTES CLÁSICOS =====
-    {
-        id: 1,
-        nombre: "Corte Escolar",
-        precio: 12,
-        duracion: 30,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Corte tradicional", "Perfecto para niños", "Líneas definidas"]
-    },
-    {
-        id: 2,
-        nombre: "Corte Hongo",
-        precio: 12,
-        duracion: 30,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Estilo juvenil", "Forma redondeada", "Acabado suave"]
-    },
-    {
-        id: 3,
-        nombre: "Corte Militar",
-        precio: 8,
-        duracion: 25,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Corte corto", "Estilo disciplinado", "Mantenimiento fácil"]
-    },
-    {
-        id: 4,
-        nombre: "Corte Romano",
-        precio: 12,
-        duracion: 35,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Estilo clásico", "Volumen superior", "Lados ajustados"]
-    },
-    {
-        id: 5,
-        nombre: "Corte Media Melena",
-        precio: 12,
-        duracion: 40,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Para cabello largo", "Capas definidas", "Estilo versátil"]
-    },
-    {
-        id: 6,
-        nombre: "Corte Cristiano Ronaldo",
-        precio: 12,
-        duracion: 35,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Estilo moderno", "Texturizado", "Tendencia actual"]
-    },
-    {
-        id: 7,
-        nombre: "Corte Mesa",
-        precio: 15,
-        duracion: 45,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Corte técnico", "Líneas perfectas", "Acabado impecable"]
-    },
-    {
-        id: 8,
-        nombre: "Corte Casquete Corto",
-        precio: 12,
-        duracion: 30,
-        categoria: "clasico",
-        icono: "fas fa-scissors",
-        caracteristicas: ["Estilo redondeado", "Practico", "Fácil mantenimiento"]
-    },
+// ===== DECLARACIONES GLOBALES =====
+if (typeof window.servicios === 'undefined') {
+    window.servicios = [];
+}
 
-    // ===== CORTES FADE =====
-    {
-        id: 9,
-        nombre: "Low Fade",
-        precio: 40,
-        duracion: 45,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado bajo", "Transición suave", "Estilo versátil"]
-    },
-    {
-        id: 10,
-        nombre: "Mid Fade",
-        precio: 40,
-        duracion: 50,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado medio", "Equilibrio perfecto", "Estilo moderno"]
-    },
-    {
-        id: 11,
-        nombre: "High Fade",
-        precio: 50,
-        duracion: 55,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado alto", "Contraste marcado", "Impacto visual"]
-    },
-    {
-        id: 12,
-        nombre: "Skin Fade",
-        precio: 50,
-        duracion: 60,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado a piel", "Máximo contraste", "Estilo audaz"]
-    },
-    {
-        id: 13,
-        nombre: "Bald Fade",
-        precio: 40,
-        duracion: 50,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Transición completa", "Estilo limpio", "Acabado perfecto"]
-    },
-    {
-        id: 14,
-        nombre: "Taper Fade",
-        precio: 40,
-        duracion: 45,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado gradual", "Estilo clásico", "Natural"]
-    },
-    {
-        id: 15,
-        nombre: "Drop Fade",
-        precio: 50,
-        duracion: 55,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado descendente", "Estilo único", "Diseño especial"]
-    },
-    {
-        id: 16,
-        nombre: "Burst Fade",
-        precio: 50,
-        duracion: 60,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Degradado circular", "Efecto explosivo", "Estilo vanguardista"]
-    },
-    {
-        id: 17,
-        nombre: "Curly Fade",
-        precio: 40,
-        duracion: 50,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Para cabello rizado", "Realza textura", "Estilo natural"]
-    },
-    {
-        id: 18,
-        nombre: "Mullet Fade",
-        precio: 40,
-        duracion: 55,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Fade + Mullet", "Estilo retro", "Tendencia actual"]
-    },
-    {
-        id: 19,
-        nombre: "Mohawk Fade",
-        precio: 50,
-        duracion: 60,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Fade + Mohawk", "Estilo rebelde", "Máximo impacto"]
-    },
-    {
-        id: 20,
-        nombre: "Mohicano Fade",
-        precio: 40,
-        duracion: 55,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Estilo tribal", "Diseño audaz", "Personalidad única"]
-    },
-    {
-        id: 21,
-        nombre: "Faux Hawk Fade",
-        precio: 50,
-        duracion: 60,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Mohawk suave", "Versión moderna", "Estilo versátil"]
-    },
-    {
-        id: 22,
-        nombre: "Mid Fade Textura Alto",
-        precio: 50,
-        duracion: 65,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Textura + Fade", "Volumen superior", "Estilo premium"]
-    },
-    {
-        id: 23,
-        nombre: "Taper Burst Fade",
-        precio: 50,
-        duracion: 60,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Combinación técnica", "Diseño exclusivo", "Máxima precisión"]
-    },
-    {
-        id: 24,
-        nombre: "French Crop Fade",
-        precio: 50,
-        duracion: 55,
-        categoria: "fade",
-        icono: "fas fa-cut",
-        caracteristicas: ["Estilo europeo", "Frente definido", "Elegancia moderna"]
-    },
-
-    // ===== CORTES CON DISEÑO =====
-    {
-        id: 25,
-        nombre: "Fade con Diseño Fácil",
-        precio: 60,
-        duracion: 70,
-        categoria: "diseno",
-        icono: "fas fa-pen-nib",
-        caracteristicas: ["Diseño simple", "Líneas básicas", "Toque personal"]
-    },
-    {
-        id: 26,
-        nombre: "Fade con Diseño Medio",
-        precio: 70,
-        duracion: 80,
-        categoria: "diseno",
-        icono: "fas fa-pen-nib",
-        caracteristicas: ["Diseño detallado", "Patrones complejos", "Arte en cabello"]
-    },
-    {
-        id: 27,
-        nombre: "Fade con Diseño Difícil",
-        precio: 80,
-        duracion: 90,
-        categoria: "diseno",
-        icono: "fas fa-pen-nib",
-        caracteristicas: ["Diseño avanzado", "Arte detallado", "Trabajo de precisión"]
-    },
-
-    // ===== BARBA Y AFEITADO =====
-    {
-        id: 28,
-        nombre: "Recorte de Barba",
-        precio: 15,
-        duracion: 20,
-        categoria: "barba",
-        icono: "fas fa-leaf",
-        caracteristicas: ["Forma y longitud", "Perfilado básico", "Mantenimiento"]
-    },
-    {
-        id: 29,
-        nombre: "Perfilado de Barba",
-        precio: 20,
-        duracion: 25,
-        categoria: "barba",
-        icono: "fas fa-drafting-compass",
-        caracteristicas: ["Líneas definidas", "Diseño facial", "Precisión máxima"]
-    },
-    {
-        id: 30,
-        nombre: "Afeitado con Toalla Caliente",
-        precio: 40,
-        duracion: 30,
-        categoria: "barba",
-        icono: "fas fa-fire",
-        caracteristicas: ["Técnica clásica", "Toallas calientes", "Acabado suave"]
-    },
-    {
-        id: 31,
-        nombre: "Diseño de Barba + Cejas",
-        precio: 60,
-        duracion: 35,
-        categoria: "barba",
-        icono: "fas fa-palette",
-        caracteristicas: ["Diseño completo", "Armonía facial", "Estilo integrado"]
-    },
-    {
-        id: 32,
-        nombre: "Barba + Pigmentación",
-        precio: 70,
-        duracion: 45,
-        categoria: "barba",
-        icono: "fas fa-fill-drip",
-        caracteristicas: ["Color y diseño", "Mejora visual", "Resultado natural"]
-    },
-
-    // ===== ESTÉTICA MASCULINA =====
-    {
-        id: 33,
-        nombre: "Limpieza Facial con Exfoliante",
-        precio: 60,
-        duracion: 40,
-        categoria: "estetica",
-        icono: "fas fa-spa",
-        caracteristicas: ["Limpieza profunda", "Exfoliación", "Piel renovada"]
-    },
-    {
-        id: 34,
-        nombre: "Mascarilla Refrescante",
-        precio: 50,
-        duracion: 30,
-        categoria: "estetica",
-        icono: "fas fa-mask",
-        caracteristicas: ["Hidratación", "Nutrición facial", "Piel saludable"]
-    },
-    {
-        id: 35,
-        nombre: "Depilación con Cera",
-        precio: 25,
-        duracion: 20,
-        categoria: "estetica",
-        icono: "fas fa-eye",
-        caracteristicas: ["Cejas, nariz, orejas", "Técnica precisa", "Resultado limpio"]
-    },
-    {
-        id: 36,
-        nombre: "Diseño de Cejas",
-        precio: 10,
-        duracion: 15,
-        categoria: "estetica",
-        icono: "fas fa-eye-brow",
-        caracteristicas: ["Forma perfecta", "Simetría", "Estilo facial"]
-    },
-
-    // ===== SERVICIOS COMPLEMENTARIOS =====
-    {
-        id: 37,
-        nombre: "Lavado de Cabello",
-        precio: 20,
-        duracion: 15,
-        categoria: "complementario",
-        icono: "fas fa-shower",
-        caracteristicas: ["Limpieza profunda", "Masaje capilar", "Relajación"]
-    },
-    {
-        id: 38,
-        nombre: "Secado con Secador",
-        precio: 20,
-        duracion: 15,
-        categoria: "complementario",
-        icono: "fas fa-wind",
-        caracteristicas: ["Estilizado", "Volumen", "Acabado profesional"]
-    },
-    {
-        id: 39,
-        nombre: "Peinado con Plancha",
-        precio: 30,
-        duracion: 25,
-        categoria: "complementario",
-        icono: "fas fa-thermometer-full",
-        caracteristicas: ["Alisado", "Estilo definido", "Protección térmica"]
-    },
-    {
-        id: 40,
-        nombre: "Hidratación Capilar",
-        precio: 40,
-        duracion: 30,
-        categoria: "complementario",
-        icono: "fas fa-tint",
-        caracteristicas: ["Nutrición", "Reparación", "Cabello saludable"]
-    },
-
-    // ===== PAQUETES ESPECIALES =====
-    {
-        id: 41,
-        nombre: "Paquete Básico",
-        precio: 80,
-        duracion: 75,
-        categoria: "paquete",
-        icono: "fas fa-gem",
-        caracteristicas: ["Corte + Barba + Cejas", "Servicio completo", "Precio especial"]
-    },
-    {
-        id: 42,
-        nombre: "Paquete Completo",
-        precio: 90,
-        duracion: 90,
-        categoria: "paquete",
-        icono: "fas fa-crown",
-        caracteristicas: ["Corte + Barba + Lavado + Facial", "Experiencia premium", "Relajación total"]
-    },
-    {
-        id: 43,
-        nombre: "Paquete VIP",
-        precio: 100,
-        duracion: 120,
-        categoria: "paquete",
-        icono: "fas fa-star",
-        caracteristicas: ["Corte + Barba + Cejas + Mascarilla + Lavado", "Lujo máximo", "Tratamiento completo"]
-    }
-];
-
-const operarios = [
-    { id: 1, nombre: "Roberto Carlos", especialidad: "ESPECIALISTA EN FADES MODERNOS" },
-    { id: 2, nombre: "Kevin Canaviri", especialidad: "ESPECIALISTA EN BARBAS Y CLÁSICOS" }
-];
+if (typeof window.operarios === 'undefined') {
+    window.operarios = [];
+}
 
 // ===== SISTEMA DE RESERVAS =====
 class SistemaReservas {
     constructor() {
         this.reservas = JSON.parse(localStorage.getItem('reservas_barberia')) || [];
-        this.operarios = operarios;
+        this.operarios = window.operarios;
     }
 
     verificarDisponibilidad(fecha, hora, operarioId = null) {
@@ -566,7 +166,7 @@ Estado: ✅ CONFIRMADA`;
 // ===== GESTOR DE SERVICIOS =====
 class ServiciosManager {
     constructor() {
-        this.servicios = servicios;
+        this.servicios = window.servicios;
         this.currentPage = 1;
         this.itemsPerPage = 50;
         this.currentCategory = 'all';
@@ -600,15 +200,17 @@ class ServiciosManager {
 }
 
 // ===== INICIALIZACIÓN =====
-const sistemaReservas = new SistemaReservas();
-const serviciosManager = new ServiciosManager();
-let currentStep = 1;
-
-document.addEventListener('DOMContentLoaded', function() {
-    initApp();
-});
+let sistemaReservas, serviciosManager, currentStep;
 
 function initApp() {
+    console.log('🔧 Inicializando aplicación...');
+    
+    // Inicializar variables
+    sistemaReservas = window.sistemaReservas || new SistemaReservas();
+    serviciosManager = window.serviciosManager || new ServiciosManager();
+    currentStep = window.currentStep || 1;
+    
+    // Cargar componentes
     cargarServicios();
     cargarHorarios();
     inicializarNavegacion();
@@ -617,6 +219,12 @@ function initApp() {
     setupScrollAnimations();
     inicializarMobileFeatures();
     inicializarSistemaReservas();
+    inicializarNavegacionSticky();
+    inicializarProgresoReserva();
+    inicializarFavoritos();
+    inicializarAutoScroll();
+    
+    console.log('✅ Aplicación completamente inicializada!');
 }
 
 // ===== CARGAR SERVICIOS =====
@@ -624,7 +232,10 @@ function cargarServicios() {
     const servicesContainer = document.getElementById('services-container');
     const serviceSelect = document.getElementById('service-select');
     
-    if (!servicesContainer || !serviceSelect) return;
+    if (!servicesContainer || !serviceSelect) {
+        console.log('❌ No se encontraron contenedores de servicios');
+        return;
+    }
     
     servicesContainer.innerHTML = '';
     serviceSelect.innerHTML = '';
@@ -642,7 +253,7 @@ function cargarServicios() {
 
     // Para la sección de servicios (grid)
     Object.keys(categorias).forEach(categoria => {
-        const serviciosCategoria = servicios.filter(s => s.categoria === categoria);
+        const serviciosCategoria = serviciosManager.servicios.filter(s => s.categoria === categoria);
         if (serviciosCategoria.length > 0) {
             const categoriaTitle = document.createElement('div');
             categoriaTitle.className = 'service-category-title';
@@ -667,7 +278,7 @@ function cargarServicios() {
 
     // Para el formulario de reservas (select)
     Object.keys(categorias).forEach(categoria => {
-        const serviciosCategoria = servicios.filter(s => s.categoria === categoria);
+        const serviciosCategoria = serviciosManager.servicios.filter(s => s.categoria === categoria);
         if (serviciosCategoria.length > 0) {
             const categoriaOption = document.createElement('div');
             categoriaOption.className = 'service-category-title';
@@ -889,6 +500,7 @@ function nextStep(step) {
         document.getElementById(`step-${step}`).classList.add('active');
         currentStep = step;
         actualizarResumenReserva();
+        actualizarProgresoReserva(step);
         
         if (step === 3) {
             setTimeout(actualizarHorariosDisponibles, 100);
@@ -901,6 +513,7 @@ function prevStep(step) {
     document.getElementById(`step-${step}`).classList.add('active');
     currentStep = step;
     actualizarResumenReserva();
+    actualizarProgresoReserva(step);
 }
 
 function validarPasoActual(paso) {
@@ -946,7 +559,7 @@ function verificarDisponibilidadFormulario(fecha, hora) {
     if (typeof disponibilidad === 'boolean') {
         if (!disponibilidad) {
             const operarioNombre = operarioId ? 
-                operarios.find(op => op.id === operarioId)?.nombre : 'barberos';
+                window.operarios.find(op => op.id === operarioId)?.nombre : 'barberos';
             mostrarAlerta(`❌ ${operarioNombre} no está disponible a las ${hora}. Por favor elige otro horario.`);
             return false;
         }
@@ -972,7 +585,7 @@ function actualizarResumenReserva() {
     
     const servicioId = formData.get('service');
     if (servicioId) {
-        const servicio = servicios.find(s => s.id == servicioId);
+        const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
         if (servicio) {
             html += `<p><strong>Servicio:</strong> ${servicio.nombre}</p>`;
             html += `<p><strong>Precio:</strong> <span style="color: #D4AF37; font-weight: bold;">Bs ${servicio.precio}</span></p>`;
@@ -985,7 +598,7 @@ function actualizarResumenReserva() {
         if (estilistaId === 'any') {
             html += `<p><strong>Barbero:</strong> Cualquiera disponible</p>`;
         } else {
-            const estilista = operarios.find(o => o.id == estilistaId);
+            const estilista = window.operarios.find(o => o.id == estilistaId);
             if (estilista) {
                 html += `<p><strong>Barbero:</strong> ${estilista.nombre}</p>`;
             }
@@ -1051,7 +664,7 @@ async function procesarReserva(e) {
     const formData = new FormData(e.target);
     
     const servicioId = formData.get('service');
-    const servicio = servicios.find(s => s.id == servicioId);
+    const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
     if (!servicio) {
         mostrarAlerta('Por favor selecciona un servicio');
         return;
@@ -1062,7 +675,7 @@ async function procesarReserva(e) {
     let operarioIdValue = null;
     
     if (estilistaId !== 'any') {
-        const estilista = operarios.find(o => o.id == estilistaId);
+        const estilista = window.operarios.find(o => o.id == estilistaId);
         if (estilista) {
             estilistaNombre = estilista.nombre;
             operarioIdValue = parseInt(estilistaId);
@@ -1429,30 +1042,8 @@ window.eliminarReserva = function(id) {
     }
 };
 
-console.log('🚀 Barbershop Gregorio Style - Sistema optimizado y listo!');
-
-
-// ===== AGREGAR AL INICIO DE main.js DESPUÉS DE LAS CONSTANTES =====
-
-// NUEVO: Sistema de favoritos
+// ===== NUEVO: Sistema de favoritos =====
 const serviciosFavoritos = JSON.parse(localStorage.getItem('servicios_favoritos')) || [];
-
-// ===== AGREGAR EN initApp() =====
-function initApp() {
-    cargarServicios();
-    cargarHorarios();
-    inicializarNavegacion();
-    inicializarFormularioReserva();
-    inicializarFiltrosServicios();
-    setupScrollAnimations();
-    inicializarMobileFeatures();
-    inicializarSistemaReservas();
-    
-    // NUEVO: Inicializar mejoras
-    inicializarNavegacionSticky();
-    inicializarProgresoReserva();
-    inicializarFavoritos();
-}
 
 // ===== NUEVAS FUNCIONES PARA MEJORAR USABILIDAD =====
 
@@ -1583,7 +1174,7 @@ function scrollToNextStep(stepNumber) {
         
         // Scroll suave al botón
         window.scrollTo({
-            top: offsetTop - 120, // Espacio para mejor visibilidad
+            top: offsetTop - 120,
             behavior: 'smooth'
         });
         
@@ -1597,22 +1188,6 @@ function highlightButton(button) {
     setTimeout(() => {
         button.classList.remove('highlight');
     }, 2000);
-}
-
-// Modificar la función initApp para incluir auto-scroll
-function initApp() {
-    cargarServicios();
-    cargarHorarios();
-    inicializarNavegacion();
-    inicializarFormularioReserva();
-    inicializarFiltrosServicios();
-    setupScrollAnimations();
-    inicializarMobileFeatures();
-    inicializarSistemaReservas();
-    inicializarNavegacionSticky();
-    inicializarProgresoReserva();
-    inicializarFavoritos();
-    inicializarAutoScroll(); // NUEVO
 }
 
 // Actualizar progreso
@@ -1636,7 +1211,7 @@ function inicializarFavoritos() {
     // Agregar botones de favorito a las tarjetas de servicio
     setTimeout(() => {
         document.querySelectorAll('.service-card').forEach((card, index) => {
-            const servicio = servicios[index];
+            const servicio = serviciosManager.servicios[index];
             if (servicio) {
                 const favoriteBtn = document.createElement('button');
                 favoriteBtn.className = 'favorite-btn';
@@ -1666,31 +1241,6 @@ function toggleFavorito(servicioId, boton) {
     
     localStorage.setItem('servicios_favoritos', JSON.stringify(serviciosFavoritos));
     mostrarAlerta('Favoritos actualizados', 'success');
-}
-
-// ===== MODIFICAR LAS FUNCIONES EXISTENTES =====
-
-// En nextStep y prevStep, agregar actualización de progreso
-function nextStep(step) {
-    if (validarPasoActual(currentStep)) {
-        document.getElementById(`step-${currentStep}`).classList.remove('active');
-        document.getElementById(`step-${step}`).classList.add('active');
-        currentStep = step;
-        actualizarResumenReserva();
-        actualizarProgresoReserva(step); // NUEVO
-        
-        if (step === 3) {
-            setTimeout(actualizarHorariosDisponibles, 100);
-        }
-    }
-}
-
-function prevStep(step) {
-    document.getElementById(`step-${currentStep}`).classList.remove('active');
-    document.getElementById(`step-${step}`).classList.add('active');
-    currentStep = step;
-    actualizarResumenReserva();
-    actualizarProgresoReserva(step); // NUEVO
 }
 
 // ===== AGREGAR ESTILOS PARA FAVORITOS =====
@@ -1723,3 +1273,12 @@ const favoriteStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = favoriteStyles;
 document.head.appendChild(styleSheet);
+
+console.log('🚀 Barbershop Gregorio Style - Sistema optimizado y listo!');
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}

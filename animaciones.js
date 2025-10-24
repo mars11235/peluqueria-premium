@@ -1,5 +1,5 @@
 // Animaciones y efectos visuales premium - GREGORIO STYLE
-document.addEventListener('DOMContentLoaded', function() {
+function inicializarAnimaciones() {
     console.log('🚀 Sistema Gregorio Style - Animaciones inicializadas');
     
     // Inicializar animaciones de scroll
@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
     inicializarScrollAutomatico();
 
     console.log('✅ Animaciones listas');
-});
+}
 
-// ===== NUEVO: SCROLL AUTOMÁTICO AL SELECCIONAR =====
+// ===== SCROLL AUTOMÁTICO AL SELECCIONAR =====
 function inicializarScrollAutomatico() {
     // Scroll automático al seleccionar servicio
     document.addEventListener('click', function(e) {
@@ -132,7 +132,7 @@ function scrollToNextButton(stepId) {
         
         // Scroll suave al botón
         window.scrollTo({
-            top: offsetTop - 100, // Un poco arriba para mejor visibilidad
+            top: offsetTop - 100,
             behavior: 'smooth'
         });
         
@@ -190,28 +190,6 @@ function inicializarNavegacionMobile() {
 
 // Sistema de búsqueda de servicios
 function inicializarBusquedaServicios() {
-    const searchHTML = `
-        <div class="service-search-container">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="serviceSearch" placeholder="🔍 Buscar servicio... (ej: fade, barba, diseño)" class="search-input">
-                <button class="search-clear" id="clearSearch">✕</button>
-            </div>
-            <div class="search-results" id="searchResults"></div>
-        </div>
-    `;
-
-    const servicesSection = document.querySelector('.services');
-    if (servicesSection) {
-        const title = servicesSection.querySelector('.section-title');
-        if (title) {
-            title.insertAdjacentHTML('afterend', searchHTML);
-            setupSearchEvents();
-        }
-    }
-}
-
-function setupSearchEvents() {
     const searchInput = document.getElementById('serviceSearch');
     const clearBtn = document.getElementById('clearSearch');
     const resultsContainer = document.getElementById('searchResults');
@@ -226,23 +204,25 @@ function setupSearchEvents() {
             
             if (query.length === 0) {
                 resultsContainer.style.display = 'none';
-                clearBtn.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
                 mostrarTodosLosServicios();
                 return;
             }
 
-            clearBtn.style.display = 'block';
+            if (clearBtn) clearBtn.style.display = 'block';
             buscarServicios(query);
         }, 300);
     });
 
-    clearBtn.addEventListener('click', function() {
-        searchInput.value = '';
-        resultsContainer.style.display = 'none';
-        clearBtn.style.display = 'none';
-        mostrarTodosLosServicios();
-        searchInput.focus();
-    });
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            resultsContainer.style.display = 'none';
+            clearBtn.style.display = 'none';
+            mostrarTodosLosServicios();
+            searchInput.focus();
+        });
+    }
 
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.service-search-container')) {
@@ -263,7 +243,7 @@ function buscarServicios(query) {
     const results = servicios.filter(servicio => 
         servicio.nombre.toLowerCase().includes(query) ||
         servicio.categoria.toLowerCase().includes(query) ||
-        servicio.caracteristicas.some(c => c.toLowerCase().includes(query))
+        (servicio.caracteristicas && servicio.caracteristicas.some(c => c.toLowerCase().includes(query)))
     );
 
     mostrarResultadosBusqueda(results, query);
@@ -272,6 +252,8 @@ function buscarServicios(query) {
 function mostrarResultadosBusqueda(resultados, query) {
     const resultsContainer = document.getElementById('searchResults');
     const servicesContainer = document.getElementById('services-container');
+    
+    if (!resultsContainer) return;
     
     if (resultados.length === 0) {
         resultsContainer.innerHTML = `
@@ -319,7 +301,9 @@ function mostrarTodosLosServicios() {
         window.cargarServicios();
     }
     
-    resultsContainer.style.display = 'none';
+    if (resultsContainer) {
+        resultsContainer.style.display = 'none';
+    }
 }
 
 // Mejoras táctiles para móviles
@@ -377,9 +361,13 @@ window.seleccionarServicioBusqueda = function(servicioId) {
         serviceOption.checked = true;
         serviceOption.closest('.service-option').classList.add('selected');
         
-        document.getElementById('searchResults').style.display = 'none';
-        document.getElementById('serviceSearch').value = '';
-        document.getElementById('clearSearch').style.display = 'none';
+        const searchResults = document.getElementById('searchResults');
+        const serviceSearch = document.getElementById('serviceSearch');
+        const clearSearch = document.getElementById('clearSearch');
+        
+        if (searchResults) searchResults.style.display = 'none';
+        if (serviceSearch) serviceSearch.value = '';
+        if (clearSearch) clearSearch.style.display = 'none';
         
         // Scroll automático al botón siguiente
         setTimeout(() => {
@@ -429,4 +417,11 @@ if (window.innerWidth <= 768) {
     });
     
     images.forEach(img => imageObserver.observe(img));
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarAnimaciones);
+} else {
+    inicializarAnimaciones();
 }

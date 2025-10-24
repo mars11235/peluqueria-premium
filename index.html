@@ -587,6 +587,440 @@
     <script src="animaciones.js"></script>
 
     <script>
+        // ===== VARIABLES GLOBALES =====
+        window.servicios = [
+            // ===== CORTES CLÁSICOS =====
+            {
+                id: 1,
+                nombre: "Corte Escolar",
+                precio: 12,
+                duracion: 30,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Corte tradicional", "Perfecto para niños", "Líneas definidas"]
+            },
+            {
+                id: 2,
+                nombre: "Corte Hongo",
+                precio: 12,
+                duracion: 30,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Estilo juvenil", "Forma redondeada", "Acabado suave"]
+            },
+            {
+                id: 3,
+                nombre: "Corte Militar",
+                precio: 8,
+                duracion: 25,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Corte corto", "Estilo disciplinado", "Mantenimiento fácil"]
+            },
+            {
+                id: 4,
+                nombre: "Corte Romano",
+                precio: 12,
+                duracion: 35,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Estilo clásico", "Volumen superior", "Lados ajustados"]
+            },
+            {
+                id: 5,
+                nombre: "Corte Media Melena",
+                precio: 12,
+                duracion: 40,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Para cabello largo", "Capas definidas", "Estilo versátil"]
+            },
+            {
+                id: 6,
+                nombre: "Corte Cristiano Ronaldo",
+                precio: 12,
+                duracion: 35,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Estilo moderno", "Texturizado", "Tendencia actual"]
+            },
+            {
+                id: 7,
+                nombre: "Corte Mesa",
+                precio: 15,
+                duracion: 45,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Corte técnico", "Líneas perfectas", "Acabado impecable"]
+            },
+            {
+                id: 8,
+                nombre: "Corte Casquete Corto",
+                precio: 12,
+                duracion: 30,
+                categoria: "clasico",
+                icono: "fas fa-scissors",
+                caracteristicas: ["Estilo redondeado", "Practico", "Fácil mantenimiento"]
+            },
+
+            // ===== CORTES FADE =====
+            {
+                id: 9,
+                nombre: "Low Fade",
+                precio: 40,
+                duracion: 45,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado bajo", "Transición suave", "Estilo versátil"]
+            },
+            {
+                id: 10,
+                nombre: "Mid Fade",
+                precio: 40,
+                duracion: 50,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado medio", "Equilibrio perfecto", "Estilo moderno"]
+            },
+            {
+                id: 11,
+                nombre: "High Fade",
+                precio: 50,
+                duracion: 55,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado alto", "Contraste marcado", "Impacto visual"]
+            },
+            {
+                id: 12,
+                nombre: "Skin Fade",
+                precio: 50,
+                duracion: 60,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado a piel", "Máximo contraste", "Estilo audaz"]
+            },
+            {
+                id: 13,
+                nombre: "Bald Fade",
+                precio: 40,
+                duracion: 50,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Transición completa", "Estilo limpio", "Acabado perfecto"]
+            },
+            {
+                id: 14,
+                nombre: "Taper Fade",
+                precio: 40,
+                duracion: 45,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado gradual", "Estilo clásico", "Natural"]
+            },
+            {
+                id: 15,
+                nombre: "Drop Fade",
+                precio: 50,
+                duracion: 55,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado descendente", "Estilo único", "Diseño especial"]
+            },
+            {
+                id: 16,
+                nombre: "Burst Fade",
+                precio: 50,
+                duracion: 60,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Degradado circular", "Efecto explosivo", "Estilo vanguardista"]
+            },
+            {
+                id: 17,
+                nombre: "Curly Fade",
+                precio: 40,
+                duracion: 50,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Para cabello rizado", "Realza textura", "Estilo natural"]
+            },
+            {
+                id: 18,
+                nombre: "Mullet Fade",
+                precio: 40,
+                duracion: 55,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Fade + Mullet", "Estilo retro", "Tendencia actual"]
+            },
+            {
+                id: 19,
+                nombre: "Mohawk Fade",
+                precio: 50,
+                duracion: 60,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Fade + Mohawk", "Estilo rebelde", "Máximo impacto"]
+            },
+            {
+                id: 20,
+                nombre: "Mohicano Fade",
+                precio: 40,
+                duracion: 55,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Estilo tribal", "Diseño audaz", "Personalidad única"]
+            },
+            {
+                id: 21,
+                nombre: "Faux Hawk Fade",
+                precio: 50,
+                duracion: 60,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Mohawk suave", "Versión moderna", "Estilo versátil"]
+            },
+            {
+                id: 22,
+                nombre: "Mid Fade Textura Alto",
+                precio: 50,
+                duracion: 65,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Textura + Fade", "Volumen superior", "Estilo premium"]
+            },
+            {
+                id: 23,
+                nombre: "Taper Burst Fade",
+                precio: 50,
+                duracion: 60,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Combinación técnica", "Diseño exclusivo", "Máxima precisión"]
+            },
+            {
+                id: 24,
+                nombre: "French Crop Fade",
+                precio: 50,
+                duracion: 55,
+                categoria: "fade",
+                icono: "fas fa-cut",
+                caracteristicas: ["Estilo europeo", "Frente definido", "Elegancia moderna"]
+            },
+
+            // ===== CORTES CON DISEÑO =====
+            {
+                id: 25,
+                nombre: "Fade con Diseño Fácil",
+                precio: 60,
+                duracion: 70,
+                categoria: "diseno",
+                icono: "fas fa-pen-nib",
+                caracteristicas: ["Diseño simple", "Líneas básicas", "Toque personal"]
+            },
+            {
+                id: 26,
+                nombre: "Fade con Diseño Medio",
+                precio: 70,
+                duracion: 80,
+                categoria: "diseno",
+                icono: "fas fa-pen-nib",
+                caracteristicas: ["Diseño detallado", "Patrones complejos", "Arte en cabello"]
+            },
+            {
+                id: 27,
+                nombre: "Fade con Diseño Difícil",
+                precio: 80,
+                duracion: 90,
+                categoria: "diseno",
+                icono: "fas fa-pen-nib",
+                caracteristicas: ["Diseño avanzado", "Arte detallado", "Trabajo de precisión"]
+            },
+
+            // ===== BARBA Y AFEITADO =====
+            {
+                id: 28,
+                nombre: "Recorte de Barba",
+                precio: 15,
+                duracion: 20,
+                categoria: "barba",
+                icono: "fas fa-leaf",
+                caracteristicas: ["Forma y longitud", "Perfilado básico", "Mantenimiento"]
+            },
+            {
+                id: 29,
+                nombre: "Perfilado de Barba",
+                precio: 20,
+                duracion: 25,
+                categoria: "barba",
+                icono: "fas fa-drafting-compass",
+                caracteristicas: ["Líneas definidas", "Diseño facial", "Precisión máxima"]
+            },
+            {
+                id: 30,
+                nombre: "Afeitado con Toalla Caliente",
+                precio: 40,
+                duracion: 30,
+                categoria: "barba",
+                icono: "fas fa-fire",
+                caracteristicas: ["Técnica clásica", "Toallas calientes", "Acabado suave"]
+            },
+            {
+                id: 31,
+                nombre: "Diseño de Barba + Cejas",
+                precio: 60,
+                duracion: 35,
+                categoria: "barba",
+                icono: "fas fa-palette",
+                caracteristicas: ["Diseño completo", "Armonía facial", "Estilo integrado"]
+            },
+            {
+                id: 32,
+                nombre: "Barba + Pigmentación",
+                precio: 70,
+                duracion: 45,
+                categoria: "barba",
+                icono: "fas fa-fill-drip",
+                caracteristicas: ["Color y diseño", "Mejora visual", "Resultado natural"]
+            },
+
+            // ===== ESTÉTICA MASCULINA =====
+            {
+                id: 33,
+                nombre: "Limpieza Facial con Exfoliante",
+                precio: 60,
+                duracion: 40,
+                categoria: "estetica",
+                icono: "fas fa-spa",
+                caracteristicas: ["Limpieza profunda", "Exfoliación", "Piel renovada"]
+            },
+            {
+                id: 34,
+                nombre: "Mascarilla Refrescante",
+                precio: 50,
+                duracion: 30,
+                categoria: "estetica",
+                icono: "fas fa-mask",
+                caracteristicas: ["Hidratación", "Nutrición facial", "Piel saludable"]
+            },
+            {
+                id: 35,
+                nombre: "Depilación con Cera",
+                precio: 25,
+                duracion: 20,
+                categoria: "estetica",
+                icono: "fas fa-eye",
+                caracteristicas: ["Cejas, nariz, orejas", "Técnica precisa", "Resultado limpio"]
+            },
+            {
+                id: 36,
+                nombre: "Diseño de Cejas",
+                precio: 10,
+                duracion: 15,
+                categoria: "estetica",
+                icono: "fas fa-eye-brow",
+                caracteristicas: ["Forma perfecta", "Simetría", "Estilo facial"]
+            },
+
+            // ===== SERVICIOS COMPLEMENTARIOS =====
+            {
+                id: 37,
+                nombre: "Lavado de Cabello",
+                precio: 20,
+                duracion: 15,
+                categoria: "complementario",
+                icono: "fas fa-shower",
+                caracteristicas: ["Limpieza profunda", "Masaje capilar", "Relajación"]
+            },
+            {
+                id: 38,
+                nombre: "Secado con Secador",
+                precio: 20,
+                duracion: 15,
+                categoria: "complementario",
+                icono: "fas fa-wind",
+                caracteristicas: ["Estilizado", "Volumen", "Acabado profesional"]
+            },
+            {
+                id: 39,
+                nombre: "Peinado con Plancha",
+                precio: 30,
+                duracion: 25,
+                categoria: "complementario",
+                icono: "fas fa-thermometer-full",
+                caracteristicas: ["Alisado", "Estilo definido", "Protección térmica"]
+            },
+            {
+                id: 40,
+                nombre: "Hidratación Capilar",
+                precio: 40,
+                duracion: 30,
+                categoria: "complementario",
+                icono: "fas fa-tint",
+                caracteristicas: ["Nutrición", "Reparación", "Cabello saludable"]
+            },
+
+            // ===== PAQUETES ESPECIALES =====
+            {
+                id: 41,
+                nombre: "Paquete Básico",
+                precio: 80,
+                duracion: 75,
+                categoria: "paquete",
+                icono: "fas fa-gem",
+                caracteristicas: ["Corte + Barba + Cejas", "Servicio completo", "Precio especial"]
+            },
+            {
+                id: 42,
+                nombre: "Paquete Completo",
+                precio: 90,
+                duracion: 90,
+                categoria: "paquete",
+                icono: "fas fa-crown",
+                caracteristicas: ["Corte + Barba + Lavado + Facial", "Experiencia premium", "Relajación total"]
+            },
+            {
+                id: 43,
+                nombre: "Paquete VIP",
+                precio: 100,
+                duracion: 120,
+                categoria: "paquete",
+                icono: "fas fa-star",
+                caracteristicas: ["Corte + Barba + Cejas + Mascarilla + Lavado", "Lujo máximo", "Tratamiento completo"]
+            }
+        ];
+
+        window.operarios = [
+            { id: 1, nombre: "Roberto Carlos", especialidad: "ESPECIALISTA EN FADES MODERNOS" },
+            { id: 2, nombre: "Kevin Canaviri", especialidad: "ESPECIALISTA EN BARBAS Y CLÁSICOS" }
+        ];
+
+        window.currentStep = 1;
+        window.sistemaReservas = null;
+        window.serviciosManager = null;
+
+        // ===== INICIALIZACIÓN GLOBAL =====
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando Gregorio Style Barbershop...');
+            
+            // Inicializar sistemas
+            if (typeof SistemaReservas !== 'undefined') {
+                window.sistemaReservas = new SistemaReservas();
+            }
+            
+            if (typeof ServiciosManager !== 'undefined') {
+                window.serviciosManager = new ServiciosManager();
+            }
+            
+            // Inicializar aplicación
+            if (typeof initApp === 'function') {
+                initApp();
+            }
+            
+            console.log('✅ Gregorio Style Barbershop inicializado correctamente');
+        });
+
         // ===== FUNCIONES PARA SCROLL AUTOMÁTICO =====
         
         function scrollToCurrentNextButton() {
@@ -620,45 +1054,56 @@
             }
         }
 
-        // Scroll automático al seleccionar opciones
-        function setupAutoScroll() {
-            // Servicios
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.service-option')) {
-                    setTimeout(() => {
-                        scrollToStepButton(1);
-                    }, 400);
-                }
-                
-                if (e.target.closest('.stylist-option')) {
-                    setTimeout(() => {
-                        scrollToStepButton(2);
-                    }, 400);
-                }
-            });
-
-            // Fecha y hora
-            document.getElementById('booking-date')?.addEventListener('change', function() {
-                setTimeout(() => {
-                    scrollToStepButton(3);
-                }, 600);
-            });
-
-            document.getElementById('booking-time')?.addEventListener('change', function() {
-                setTimeout(() => {
-                    scrollToStepButton(3);
-                }, 600);
-            });
-
-            // Inputs de cliente
-            document.querySelectorAll('.client-info input').forEach(input => {
-                input.addEventListener('focus', function() {
-                    setTimeout(() => {
-                        scrollToStepButton(4);
-                    }, 500);
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleMobileIndicator();
+            window.addEventListener('resize', toggleMobileIndicator);
+            
+            // Mejorar la experiencia táctil en móviles
+            if (window.innerWidth <= 768) {
+                document.querySelectorAll('.service-option, .stylist-option').forEach(option => {
+                    option.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.98)';
+                    });
+                    
+                    option.addEventListener('touchend', function() {
+                        this.style.transform = 'scale(1)';
+                    });
                 });
-            });
-        }
+            }
+        });
+
+        // ===== FUNCIONES GLOBALES MEJORADAS =====
+        
+        // Función global para selección de servicios desde búsqueda
+        window.seleccionarServicioBusqueda = function(servicioId) {
+            const serviceOption = document.querySelector(`input[value="${servicioId}"]`);
+            if (serviceOption) {
+                serviceOption.checked = true;
+                serviceOption.closest('.service-option').classList.add('selected');
+                
+                // Cerrar resultados de búsqueda
+                const searchResults = document.getElementById('searchResults');
+                const serviceSearch = document.getElementById('serviceSearch');
+                const clearSearch = document.getElementById('clearSearch');
+                
+                if (searchResults) searchResults.style.display = 'none';
+                if (serviceSearch) serviceSearch.value = '';
+                if (clearSearch) clearSearch.style.display = 'none';
+                
+                // Scroll automático al botón siguiente
+                setTimeout(() => {
+                    scrollToStepButton(1);
+                }, 500);
+                
+                // Ir al siguiente paso después de un delay
+                if (window.nextStep) {
+                    setTimeout(() => {
+                        window.nextStep(2);
+                    }, 1000);
+                }
+            }
+        };
 
         function scrollToStepButton(stepNumber) {
             const stepElement = document.getElementById(`step-${stepNumber}`);
@@ -684,117 +1129,6 @@
                 button.classList.remove('highlight');
             }, 2000);
         }
-
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleMobileIndicator();
-            window.addEventListener('resize', toggleMobileIndicator);
-            setupAutoScroll();
-            
-            // Mejorar la experiencia táctil en móviles
-            if (window.innerWidth <= 768) {
-                document.querySelectorAll('.service-option, .stylist-option').forEach(option => {
-                    option.addEventListener('touchstart', function() {
-                        this.style.transform = 'scale(0.98)';
-                    });
-                    
-                    option.addEventListener('touchend', function() {
-                        this.style.transform = 'scale(1)';
-                    });
-                });
-            }
-        });
-
-        // ===== FUNCIONES GLOBALES MEJORADAS =====
-        
-        // Navegación entre pasos con scroll automático
-        window.nextStep = function(step) {
-            if (window.validarPasoActual && window.validarPasoActual(window.currentStep)) {
-                document.getElementById(`step-${window.currentStep}`).classList.remove('active');
-                document.getElementById(`step-${step}`).classList.add('active');
-                window.currentStep = step;
-                
-                if (window.actualizarResumenReserva) {
-                    window.actualizarResumenReserva();
-                }
-                
-                if (window.actualizarProgresoReserva) {
-                    window.actualizarProgresoReserva(step);
-                }
-                
-                // Scroll al nuevo paso
-                setTimeout(() => {
-                    const stepElement = document.getElementById(`step-${step}`);
-                    if (stepElement) {
-                        const rect = stepElement.getBoundingClientRect();
-                        const offsetTop = rect.top + window.pageYOffset - 80;
-                        
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 300);
-                
-                if (step === 3 && window.actualizarHorariosDisponibles) {
-                    setTimeout(window.actualizarHorariosDisponibles, 100);
-                }
-            }
-        };
-
-        window.prevStep = function(step) {
-            document.getElementById(`step-${window.currentStep}`).classList.remove('active');
-            document.getElementById(`step-${step}`).classList.add('active');
-            window.currentStep = step;
-            
-            if (window.actualizarResumenReserva) {
-                window.actualizarResumenReserva();
-            }
-            
-            if (window.actualizarProgresoReserva) {
-                window.actualizarProgresoReserva(step);
-            }
-            
-            // Scroll al paso anterior
-            setTimeout(() => {
-                const stepElement = document.getElementById(`step-${step}`);
-                if (stepElement) {
-                    const rect = stepElement.getBoundingClientRect();
-                    const offsetTop = rect.top + window.pageYOffset - 80;
-                    
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 300);
-        };
-
-        // Función global para selección de servicios desde búsqueda
-        window.seleccionarServicioBusqueda = function(servicioId) {
-            const serviceOption = document.querySelector(`input[value="${servicioId}"]`);
-            if (serviceOption) {
-                serviceOption.checked = true;
-                serviceOption.closest('.service-option').classList.add('selected');
-                
-                // Cerrar resultados de búsqueda
-                document.getElementById('searchResults').style.display = 'none';
-                document.getElementById('serviceSearch').value = '';
-                document.getElementById('clearSearch').style.display = 'none';
-                
-                // Scroll automático al botón siguiente
-                setTimeout(() => {
-                    scrollToStepButton(1);
-                }, 500);
-                
-                // Ir al siguiente paso después de un delay
-                if (window.nextStep) {
-                    setTimeout(() => {
-                        window.nextStep(2);
-                    }, 1000);
-                }
-            }
-        };
     </script>
 </body>
 </html>
