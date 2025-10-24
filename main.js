@@ -536,7 +536,7 @@ class SistemaReservas {
 
     // NUEVA FUNCIÓN: Enviar WhatsApp al barbero
     async enviarWhatsAppBarbero(reservaData) {
-        const tuNumero = "59167233590"; // ⬅️ TU NÚMERO REAL
+        const tuNumero = "59172346861"; // ⬅️ TU NÚMERO REAL
         
         const mensaje = `🪒 NUEVA RESERVA - GREGORIO STYLE
 
@@ -563,12 +563,12 @@ Estado: ✅ CONFIRMADA`;
     }
 }
 
-// ===== GESTOR DE SERVICIOS CON PAGINACIÓN =====
+// ===== GESTOR DE SERVICIOS =====
 class ServiciosManager {
     constructor() {
         this.servicios = servicios;
         this.currentPage = 1;
-        this.itemsPerPage = 9;
+        this.itemsPerPage = 50; // Mostrar todos los servicios
         this.currentCategory = 'all';
     }
 
@@ -617,32 +617,6 @@ function initApp() {
     setupScrollAnimations();
     inicializarMobileFeatures();
     inicializarSistemaReservas();
-    setupServicePagination();
-}
-
-// ===== PAGINACIÓN DE SERVICIOS =====
-function setupServicePagination() {
-    const loadMoreBtn = document.querySelector('.load-more-btn');
-    if (!loadMoreBtn) return;
-
-    loadMoreBtn.addEventListener('click', cargarMasServicios);
-}
-
-function cargarMasServicios() {
-    const nuevosServicios = serviciosManager.cargarMasServicios();
-    const servicesContainer = document.getElementById('services-container');
-    
-    nuevosServicios.forEach(servicio => {
-        const serviceCard = crearServiceCard(servicio);
-        servicesContainer.appendChild(serviceCard);
-    });
-
-    const loadMoreBtn = document.querySelector('.load-more-btn');
-    if (!serviciosManager.hayMasServicios(serviciosManager.currentCategory)) {
-        loadMoreBtn.style.display = 'none';
-    }
-    
-    setupScrollAnimations();
 }
 
 // ===== CARGAR SERVICIOS =====
@@ -655,22 +629,63 @@ function cargarServicios() {
     servicesContainer.innerHTML = '';
     serviceSelect.innerHTML = '';
 
-    const serviciosIniciales = serviciosManager.getServiciosPaginados('all');
-    
-    serviciosIniciales.forEach(servicio => {
-        const serviceCard = crearServiceCard(servicio);
-        servicesContainer.appendChild(serviceCard);
-        
-        const serviceOption = crearServiceOption(servicio);
-        serviceSelect.appendChild(serviceOption);
+    // Organizar servicios por categorías
+    const categorias = {
+        'clasico': 'CORTES CLÁSICOS',
+        'fade': 'CORTES FADE',
+        'diseno': 'CORTES CON DISEÑO',
+        'barba': 'BARBA Y AFEITADO',
+        'estetica': 'ESTÉTICA MASCULINA',
+        'complementario': 'SERVICIOS COMPLEMENTARIOS',
+        'paquete': 'PAQUETES ESPECIALES'
+    };
+
+    // Para la sección de servicios (grid)
+    Object.keys(categorias).forEach(categoria => {
+        const serviciosCategoria = servicios.filter(s => s.categoria === categoria);
+        if (serviciosCategoria.length > 0) {
+            const categoriaTitle = document.createElement('div');
+            categoriaTitle.className = 'service-category-title';
+            categoriaTitle.textContent = categorias[categoria];
+            categoriaTitle.style.gridColumn = '1 / -1';
+            categoriaTitle.style.color = '#D4AF37';
+            categoriaTitle.style.fontSize = '1.3rem';
+            categoriaTitle.style.fontWeight = 'bold';
+            categoriaTitle.style.margin = '2rem 0 1rem 0';
+            categoriaTitle.style.paddingBottom = '0.5rem';
+            categoriaTitle.style.borderBottom = '2px solid #D4AF37';
+            categoriaTitle.style.textAlign = 'center';
+            categoriaTitle.style.textTransform = 'uppercase';
+            servicesContainer.appendChild(categoriaTitle);
+            
+            serviciosCategoria.forEach(servicio => {
+                const serviceCard = crearServiceCard(servicio);
+                servicesContainer.appendChild(serviceCard);
+            });
+        }
     });
 
-    const loadMoreBtn = document.querySelector('.load-more-btn');
-    if (serviciosManager.hayMasServicios('all')) {
-        loadMoreBtn.style.display = 'block';
-    } else {
-        loadMoreBtn.style.display = 'none';
-    }
+    // Para el formulario de reservas (select)
+    Object.keys(categorias).forEach(categoria => {
+        const serviciosCategoria = servicios.filter(s => s.categoria === categoria);
+        if (serviciosCategoria.length > 0) {
+            const categoriaOption = document.createElement('div');
+            categoriaOption.className = 'service-category-title';
+            categoriaOption.textContent = categorias[categoria];
+            categoriaOption.style.marginTop = '1.5rem';
+            categoriaOption.style.marginBottom = '0.5rem';
+            categoriaOption.style.fontSize = '1rem';
+            categoriaOption.style.color = '#D4AF37';
+            categoriaOption.style.borderBottom = '1px solid #D4AF37';
+            categoriaOption.style.paddingBottom = '0.5rem';
+            serviceSelect.appendChild(categoriaOption);
+            
+            serviciosCategoria.forEach(servicio => {
+                const serviceOption = crearServiceOption(servicio);
+                serviceSelect.appendChild(serviceOption);
+            });
+        }
+    });
 
     setupServiceEvents();
 }
@@ -684,7 +699,7 @@ function crearServiceCard(servicio) {
                 <i class="${servicio.icono}"></i>
             </div>
             <h3>${servicio.nombre}</h3>
-            <div class="service-price">Bs ${servicio.precio}</div>
+            <div class="service-price" style="color: #D4AF37; font-weight: bold; font-size: 1.4rem;">Bs ${servicio.precio}</div>
             <div class="service-duration">${servicio.duracion} min</div>
         </div>
         <ul class="service-features">
@@ -702,7 +717,9 @@ function crearServiceOption(servicio) {
     serviceOption.innerHTML = `
         <input type="radio" name="service" value="${servicio.id}" id="service-${servicio.id}">
         <label for="service-${servicio.id}">
-            <strong>${servicio.nombre}</strong> - Bs ${servicio.precio} (${servicio.duracion} min)
+            <strong>${servicio.nombre}</strong> 
+            <span style="color: #D4AF37; font-weight: bold; margin-left: 10px;">Bs ${servicio.precio}</span>
+            <span style="color: #888; font-size: 0.8rem; margin-left: 5px;">(${servicio.duracion} min)</span>
         </label>
     `;
     return serviceOption;
@@ -741,24 +758,23 @@ function inicializarFiltrosServicios() {
 
 function filtrarServicios(categoria) {
     const servicesContainer = document.getElementById('services-container');
-    const loadMoreBtn = document.querySelector('.load-more-btn');
     
     serviciosManager.resetPaginacion();
     serviciosManager.currentCategory = categoria;
     
     servicesContainer.innerHTML = '';
     
-    const serviciosFiltrados = serviciosManager.getServiciosPaginados(categoria);
-    
-    serviciosFiltrados.forEach(servicio => {
-        const serviceCard = crearServiceCard(servicio);
-        servicesContainer.appendChild(serviceCard);
-    });
-
-    if (serviciosManager.hayMasServicios(categoria)) {
-        loadMoreBtn.style.display = 'block';
+    if (categoria === 'all') {
+        // Mostrar todos organizados por categorías
+        cargarServicios();
     } else {
-        loadMoreBtn.style.display = 'none';
+        // Mostrar solo la categoría seleccionada
+        const serviciosFiltrados = serviciosManager.getServiciosPaginados(categoria);
+        
+        serviciosFiltrados.forEach(servicio => {
+            const serviceCard = crearServiceCard(servicio);
+            servicesContainer.appendChild(serviceCard);
+        });
     }
 
     setupServiceEvents();
@@ -766,7 +782,6 @@ function filtrarServicios(categoria) {
 }
 
 // ===== SISTEMA DE RESERVAS =====
-
 function cargarHorarios() {
     const timeSelect = document.getElementById('booking-time');
     if (!timeSelect) return;
@@ -962,7 +977,7 @@ function actualizarResumenReserva() {
         const servicio = servicios.find(s => s.id == servicioId);
         if (servicio) {
             html += `<p><strong>Servicio:</strong> ${servicio.nombre}</p>`;
-            html += `<p><strong>Precio:</strong> Bs ${servicio.precio}</p>`;
+            html += `<p><strong>Precio:</strong> <span style="color: #D4AF37; font-weight: bold;">Bs ${servicio.precio}</span></p>`;
             html += `<p><strong>Duración:</strong> ${servicio.duracion} min</p>`;
         }
     }

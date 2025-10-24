@@ -536,7 +536,7 @@ class SistemaReservas {
 
     // NUEVA FUNCIÓN: Enviar WhatsApp al barbero
     async enviarWhatsAppBarbero(reservaData) {
-        const tuNumero = "59167233590"; // ⬅️ TU NÚMERO REAL
+        const tuNumero = "59172346861"; // ⬅️ TU NÚMERO REAL
         
         const mensaje = `🪒 NUEVA RESERVA - GREGORIO STYLE
 
