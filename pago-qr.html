@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago QR - Gregorio Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0A0A0A;
+            color: #F5F5F5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .qr-container {
+            background: #1A1A1A;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #D4AF37;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .qr-header {
+            margin-bottom: 2rem;
+        }
+
+        .qr-header h1 {
+            color: #D4AF37;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-header p {
+            color: #B0B0B0;
+            font-size: 1rem;
+        }
+
+        .qr-code-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-image {
+            width: 220px;
+            height: 220px;
+            border: 2px solid #D4AF37;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .qr-details {
+            background: #2A2A2A;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .qr-details h3 {
+            color: #D4AF37;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #444;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #B0B0B0;
+        }
+
+        .detail-value {
+            color: #F5F5F5;
+            font-weight: bold;
+        }
+
+        .price-highlight {
+            color: #D4AF37;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .qr-instructions {
+            background: #2A2A2A;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .qr-instructions h3 {
+            color: #D4AF37;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            background: #D4AF37;
+            color: #0A0A0A;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #B0B0B0;
+            line-height: 1.5;
+        }
+
+        .qr-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #D4AF37;
+            color: #0A0A0A;
+        }
+
+        .btn-secondary {
+            background: #2A2A2A;
+            color: #F5F5F5;
+            border: 1px solid #444;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .payment-confirmed {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .bank-info {
+            background: #2A2A2A;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .bank-info p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+
+        .bank-name {
+            color: #D4AF37;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .qr-container {
+                padding: 1.5rem;
+            }
+            
+            .qr-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .qr-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-container">
+        <div class="qr-header">
+            <h1>💳 PAGO CON QR</h1>
+            <p>Gregorio Style - Reserva Confirmada</p>
+        </div>
+
+        <div class="payment-confirmed" id="paymentConfirmed">
+            ✅ ¡Pago confirmado! Tu reserva está asegurada
+        </div>
+
+        <div class="qr-code-container">
+            <img src="qr-gregorio-style.png.jpg" alt="QR Code para pago" class="qr-image" id="qrImage">
+        </div>
+
+        <div class="bank-info">
+            <p><span class="bank-name">BANCO BISA</span></p>
+            <p>Cuenta: 1234567890</p>
+            <p>Titular: GREGORIO STYLE BARBERSHOP</p>
+        </div>
+
+        <div class="qr-details">
+            <h3>📋 DETALLES DEL PAGO</h3>
+            <div class="detail-row">
+                <span class="detail-label">Servicio:</span>
+                <span class="detail-value" id="serviceName">Corte de Cabello</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Barbero:</span>
+                <span class="detail-value" id="barberName">Roberto Carlos</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Fecha y Hora:</span>
+                <span class="detail-value" id="bookingDateTime">15 Ene, 10:00 AM</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Monto a Pagar:</span>
+                <span class="detail-value price-highlight" id="paymentAmount">Bs 40</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Referencia:</span>
+                <span class="detail-value" id="referenceNumber">GS-001</span>
+            </div>
+        </div>
+
+        <div class="qr-instructions">
+            <h3>📝 CÓMO PAGAR</h3>
+            <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-text">Abre la app de tu banco móvil (BISA, BNB, etc.)</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-text">Selecciona "Pagar con QR" o "Escanear QR"</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-text">Escanea el código QR de arriba</div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-text">Confirma el pago de <strong id="confirmAmount">Bs 40</strong></div>
+            </div>
+            <div class="instruction-step">
+                <div class="step-number">5</div>
+                <div class="step-text">Guarda el comprobante y envíalo por WhatsApp</div>
+            </div>
+        </div>
+
+        <div class="qr-actions">
+            <button class="btn btn-primary" onclick="marcarComoPagado()">
+                ✅ YA PAGUÉ
+            </button>
+            <button class="btn btn-secondary" onclick="window.close()">
+                ❌ CERRAR
+            </button>
+        </div>
+
+        <a href="#" class="whatsapp-link" id="whatsappBtn" onclick="enviarComprobanteWhatsApp()">
+            📱 Enviar comprobante por WhatsApp
+        </a>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Configurar detalles del pago desde los parámetros
+        document.getElementById('serviceName').textContent = urlParams.get('servicio') || 'Corte de Cabello';
+        document.getElementById('barberName').textContent = urlParams.get('barbero') || 'Cualquier barbero disponible';
+        document.getElementById('bookingDateTime').textContent = urlParams.get('fecha') || 'Fecha no especificada';
+        
+        const precio = urlParams.get('precio') || '40';
+        document.getElementById('paymentAmount').textContent = `Bs ${precio}`;
+        document.getElementById('confirmAmount').textContent = `Bs ${precio}`;
+
+        // Generar número de referencia único
+        const referencia = `GS${Date.now().toString().slice(-6)}`;
+        document.getElementById('referenceNumber').textContent = referencia;
+
+        // Número de WhatsApp del barbero (CONFIGURAR ESTE NÚMERO)
+        const numeroBarbero = "59167233590"; // ⬅️ CAMBIAR POR TU NÚMERO REAL
+
+        function marcarComoPagado() {
+            const confirmacion = document.getElementById('paymentConfirmed');
+            confirmacion.style.display = 'block';
+            
+            // Guardar en localStorage que el pago está confirmado
+            const reservaId = urlParams.get('reservaId') || Date.now();
+            localStorage.setItem(`pago_confirmado_${reservaId}`, 'true');
+            
+            // Mostrar mensaje de éxito
+            setTimeout(() => {
+                alert('✅ Pago registrado exitosamente. Tu reserva está confirmada.');
+            }, 500);
+        }
+
+        function enviarComprobanteWhatsApp() {
+            const servicio = document.getElementById('serviceName').textContent;
+            const barbero = document.getElementById('barberName').textContent;
+            const fechaHora = document.getElementById('bookingDateTime').textContent;
+            const monto = document.getElementById('paymentAmount').textContent;
+            const referencia = document.getElementById('referenceNumber').textContent;
+            
+            const mensaje = `✅ COMPROBANTE DE PAGO - GREGORIO STYLE
+
+🪒 Servicio: ${servicio}
+💈 Barbero: ${barbero}
+📅 Fecha: ${fechaHora}
+💰 Monto: ${monto}
+📋 Referencia: ${referencia}
+
+🏦 Banco: BANCO BISA
+📞 Contacto: 67233590
+
+🎉 ¡Reserva confirmada y asegurada!
+
+Te esperamos en Gregorio Style!
+📍 Ecuador y Pasaje del Maestro`;
+            
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            const urlWhatsApp = `https://wa.me/${numeroBarbero}?text=${mensajeCodificado}`;
+            
+            window.open(urlWhatsApp, '_blank');
+        }
+
+        // Verificar si ya hay un pago confirmado
+        window.addEventListener('load', function() {
+            const reservaId = urlParams.get('reservaId');
+            if (reservaId && localStorage.getItem(`pago_confirmado_${reservaId}`)) {
+                document.getElementById('paymentConfirmed').style.display = 'block';
+            }
+        });
+
+        // Manejar errores de imagen QR
+        document.getElementById('qrImage').addEventListener('error', function() {
+            console.error('❌ No se pudo cargar la imagen QR');
+            this.alt = 'QR no disponible - Contactar al 67233590';
+            this.style.backgroundColor = '#f8f8f8';
+            this.style.display = 'flex';
+            this.style.alignItems = 'center';
+            this.style.justifyContent = 'center';
+            this.style.fontSize = '0.8rem';
+            this.style.color = '#333';
+            this.style.padding = '1rem';
+            this.style.textAlign = 'center';
+            this.innerHTML = '⚠️ QR NO DISPONIBLE<br>Contactar al:<br><strong>67233590</strong>';
+        });
+    </script>
+</body>
+</html>
