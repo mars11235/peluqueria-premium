@@ -629,11 +629,13 @@ async function enviarWhatsAppVerificacion() {
         // 1. CREAR LA RESERVA
         const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
         
-        // 2. ENVIAR WHATSAPP AL CLIENTE (VERIFICACIÓN)
-        await enviarWhatsAppCliente(reservaConfirmada);
-        
-        // 3. ENVIAR WHATSAPP AL DUEÑO (NOTIFICACIÓN)
-        await enviarWhatsAppBarbero(reservaConfirmada);
+       // 2. ENVIAR WHATSAPP AL CLIENTE (VERIFICACIÓN)
+        enviarWhatsAppCliente(reservaConfirmada);
+
+       // 3. ENVIAR WHATSAPP AL DUEÑO (NOTIFICACIÓN) CON RETRASO
+        setTimeout(() => {
+        enviarWhatsAppBarbero(reservaConfirmada);
+         }, 1000);
         
         // 4. MOSTRAR CONFIRMACIÓN
         setTimeout(() => {
