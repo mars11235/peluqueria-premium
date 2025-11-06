@@ -601,8 +601,13 @@ async function enviarWhatsAppVerificacion() {
         // 1. CREAR LA RESERVA
         const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
         
-       // 2. ENVIAR WHATSAPP UNIFICADO (cliente + dueño)
-            enviarWhatsAppUnificado(reservaConfirmada);
+        // 2. PRIMERO: WhatsApp para CLIENTE (inmediato)
+            enviarWhatsAppCliente(reservaConfirmada);
+
+        // 3. DESPUÉS: WhatsApp para DUEÑO con retraso LARGO
+          setTimeout(() => {
+            enviarWhatsAppDueño(reservaConfirmada);
+        }, 5000); // 5 SEGUNDOS de retraso
         
         // 4. MOSTRAR CONFIRMACIÓN
         setTimeout(() => {
@@ -613,6 +618,75 @@ async function enviarWhatsAppVerificacion() {
     } catch (error) {
         mostrarAlerta(error.message);
     }
+}
+
+
+// ===== SISTEMA WHATSAPP DUAL =====
+
+// FUNCIÓN PARA CLIENTE
+function enviarWhatsAppCliente(reserva) {
+    const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
+    
+    const mensajeCliente = `✅ RESERVA CONFIRMADA - GREGORIO STYLE
+
+¡Hola ${reserva.cliente.nombre}! 
+
+📋 DETALLES DE TU RESERVA:
+✂️ Servicio: ${reserva.servicio}
+💰 Precio: Bs ${reserva.precio}
+⏱ Duración: ${reserva.duracion} min
+👨‍💼 Barbero: ${reserva.estilista}
+📅 Fecha: ${reserva.fecha}
+🕐 Hora: ${reserva.hora}
+
+📍 Dirección: Ecuador y Pasaje del Maestro
+📞 Teléfono: 67233590
+
+💡 IMPORTANTE:
+• Llega 5 minutos antes
+• Trae tu comprobante de pago
+• Cancelación con 2 horas de anticipación
+
+¡Te esperamos en Gregorio Style! 🪒`;
+    
+    const mensajeCodificado = encodeURIComponent(mensajeCliente);
+    const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
+    
+    // Abrir WhatsApp para el cliente
+    console.log('Abriendo WhatsApp para cliente...');
+    window.open(urlWhatsApp, '_blank');
+}
+
+// FUNCIÓN PARA DUEÑO (TU WHATSAPP)
+function enviarWhatsAppDueño(reserva) {
+    const telefonoDueño = "59172346861"; // ⬅️ TU NÚMERO REAL
+    
+    const mensajeDueño = `🚨 *NUEVA RESERVA - GREGORIO STYLE* 🚨
+
+*👤 CLIENTE:*
+• *Nombre:* ${reserva.cliente.nombre}
+• *Teléfono:* ${reserva.cliente.telefono}
+• *Email:* ${reserva.cliente.email}
+
+*📅 DETALLES DE LA RESERVA:*
+• *Servicio:* ${reserva.servicio}
+• *Precio:* Bs ${reserva.precio}
+• *Duración:* ${reserva.duracion} min
+• *Barbero:* ${reserva.estilista}
+• *Fecha:* ${reserva.fecha}
+• *Hora:* ${reserva.hora}
+
+*💰 PAGO CONFIRMADO MEDIANTE QR*
+*✅ RESERVA CONFIRMADA*
+
+*⏰ ${new Date().toLocaleString('es-ES')}*`;
+
+    const mensajeCodificado = encodeURIComponent(mensajeDueño);
+    const urlWhatsApp = `https://wa.me/${telefonoDueño}?text=${mensajeCodificado}`;
+    
+    // Abrir WhatsApp para el dueño (5 segundos después)
+    console.log('Abriendo WhatsApp para dueño...');
+    window.open(urlWhatsApp, '_blank');
 }
 
 // NUEVA FUNCIÓN: WhatsApp Unificado (para cliente y dueño)
