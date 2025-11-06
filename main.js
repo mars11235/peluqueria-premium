@@ -632,7 +632,10 @@ async function enviarWhatsAppVerificacion() {
         // 2. ENVIAR WHATSAPP AL CLIENTE (VERIFICACIÓN)
         await enviarWhatsAppCliente(reservaConfirmada);
         
-        // 3. MOSTRAR CONFIRMACIÓN
+        // 3. ENVIAR WHATSAPP AL DUEÑO (NOTIFICACIÓN)
+        await enviarWhatsAppBarbero(reservaConfirmada);
+        
+        // 4. MOSTRAR CONFIRMACIÓN
         setTimeout(() => {
             mostrarConfirmacionReserva(reservaConfirmada);
             resetearFormulario();
@@ -644,10 +647,11 @@ async function enviarWhatsAppVerificacion() {
 }
 
 // NUEVA FUNCIÓN: Enviar WhatsApp al CLIENTE para verificación
+// FUNCIÓN MEJORADA: Enviar WhatsApp al CLIENTE para verificación
 async function enviarWhatsAppCliente(reserva) {
     const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
     
-    const mensajeCliente = `✅ RESERVA VERIFICADA - GREGORIO STYLE
+    const mensajeCliente = `✅ RESERVA CONFIRMADA - GREGORIO STYLE
 
 ¡Hola ${reserva.cliente.nombre}! 
 
@@ -673,6 +677,39 @@ async function enviarWhatsAppCliente(reserva) {
     const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
     
     // Abrir WhatsApp para el cliente
+    window.open(urlWhatsApp, '_blank');
+    return true;
+}
+
+
+// FUNCIÓN MEJORADA: Enviar WhatsApp al DUEÑO de la barbería
+async function enviarWhatsAppBarbero(reserva) {
+    const telefonoBarbero = "59167233590"; // ⬅️ NÚMERO DEL DUEÑO
+    
+    const mensajeBarbero = `🪒 NUEVA RESERVA CONFIRMADA - GREGORIO STYLE
+
+👤 CLIENTE:
+• Nombre: ${reserva.cliente.nombre}
+• Teléfono: ${reserva.cliente.telefono}
+• Email: ${reserva.cliente.email}
+
+📋 DETALLES DE LA RESERVA:
+• Servicio: ${reserva.servicio}
+• Precio: Bs ${reserva.precio}
+• Duración: ${reserva.duracion} min
+• Barbero: ${reserva.estilista}
+• Fecha: ${reserva.fecha}
+• Hora: ${reserva.hora}
+
+💰 PAGO CONFIRMADO MEDIANTE QR
+✅ RESERVA CONFIRMADA
+
+📅 ${new Date().toLocaleString('es-ES')}`;
+
+    const mensajeCodificado = encodeURIComponent(mensajeBarbero);
+    const urlWhatsApp = `https://wa.me/${telefonoBarbero}?text=${mensajeCodificado}`;
+    
+    // Abrir WhatsApp para el dueño
     window.open(urlWhatsApp, '_blank');
     return true;
 }
