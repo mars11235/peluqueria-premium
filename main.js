@@ -133,34 +133,6 @@ class SistemaReservas {
         this.reservas = [];
         this.guardarEnLocalStorage();
     }
-
-    // NUEVA FUNCIÓN: Enviar WhatsApp al barbero
-    async enviarWhatsAppBarbero(reservaData) {
-        const tuNumero = "59167233590"; // ⬅️ TU NÚMERO REAL
-        
-        const mensaje = `🪒 NUEVA RESERVA - GREGORIO STYLE
-
-👤 Cliente: ${reservaData.cliente.nombre}
-📞 Teléfono: ${reservaData.cliente.telefono}
-📧 Email: ${reservaData.cliente.email}
-
-✂️ Servicio: ${reservaData.servicio}
-💰 Precio: Bs ${reservaData.precio}
-⏱ Duración: ${reservaData.duracion} min
-
-👨‍💼 Barbero: ${reservaData.estilista}
-📅 Fecha: ${reservaData.fecha}
-🕐 Hora: ${reservaData.hora}
-
-Estado: ✅ CONFIRMADA`;
-
-        const mensajeCodificado = encodeURIComponent(mensaje);
-        const urlWhatsApp = `https://wa.me/${tuNumero}?text=${mensajeCodificado}`;
-        
-        // Abrir en nueva pestaña
-        window.open(urlWhatsApp, '_blank');
-        return true;
-    }
 }
 
 // ===== GESTOR DE SERVICIOS =====
@@ -629,13 +601,13 @@ async function enviarWhatsAppVerificacion() {
         // 1. CREAR LA RESERVA
         const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
         
-       // 2. ENVIAR WHATSAPP AL CLIENTE (VERIFICACIÓN)
+        // 2. ENVIAR WHATSAPP AL CLIENTE (inmediato)
         enviarWhatsAppCliente(reservaConfirmada);
 
-       // 3. ENVIAR WHATSAPP AL DUEÑO (NOTIFICACIÓN) CON RETRASO
+        // 3. ENVIAR WHATSAPP AL DUEÑO (con retraso de 2 segundos)
         setTimeout(() => {
-        enviarWhatsAppBarbero(reservaConfirmada);
-         }, 1000);
+            enviarWhatsAppBarbero(reservaConfirmada);
+        }, 2000);
         
         // 4. MOSTRAR CONFIRMACIÓN
         setTimeout(() => {
@@ -648,7 +620,6 @@ async function enviarWhatsAppVerificacion() {
     }
 }
 
-// NUEVA FUNCIÓN: Enviar WhatsApp al CLIENTE para verificación
 // FUNCIÓN MEJORADA: Enviar WhatsApp al CLIENTE para verificación
 async function enviarWhatsAppCliente(reserva) {
     const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
@@ -682,7 +653,6 @@ async function enviarWhatsAppCliente(reserva) {
     window.open(urlWhatsApp, '_blank');
     return true;
 }
-
 
 // FUNCIÓN MEJORADA: Enviar WhatsApp al DUEÑO de la barbería
 async function enviarWhatsAppBarbero(reserva) {
