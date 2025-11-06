@@ -535,7 +535,7 @@ function verificarPago() {
             <h3 style="margin-bottom: 1rem;">CONFIRMACIÓN DE PAGO</h3>
             <p style="margin-bottom: 1.5rem; color: #B0B0B0;">
                 ¿Ya realizaste el pago mediante QR? 
-                <br>Te enviaremos un mensaje por WhatsApp para verificar tu reserva.
+                <br>Se enviará un WhatsApp al barbero con tu reserva.
             </p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <button onclick="enviarWhatsAppVerificacion()" style="background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
@@ -601,15 +601,10 @@ async function enviarWhatsAppVerificacion() {
         // 1. CREAR LA RESERVA
         const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
         
-        // 2. PRIMERO: WhatsApp para CLIENTE (inmediato)
-            enviarWhatsAppCliente(reservaConfirmada);
-
-        // 3. DESPUÉS: WhatsApp para DUEÑO con retraso LARGO
-          setTimeout(() => {
-            enviarWhatsAppDueño(reservaConfirmada);
-        }, 5000); // 5 SEGUNDOS de retraso
+        // 2. ENVIAR WHATSAPP SOLO AL DUEÑO
+        enviarWhatsAppDueño(reservaConfirmada);
         
-        // 4. MOSTRAR CONFIRMACIÓN
+        // 3. MOSTRAR CONFIRMACIÓN
         setTimeout(() => {
             mostrarConfirmacionReserva(reservaConfirmada);
             resetearFormulario();
@@ -620,46 +615,11 @@ async function enviarWhatsAppVerificacion() {
     }
 }
 
-
-// ===== SISTEMA WHATSAPP DUAL =====
-
-// FUNCIÓN PARA CLIENTE
-function enviarWhatsAppCliente(reserva) {
-    const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
-    
-    const mensajeCliente = `✅ RESERVA CONFIRMADA - GREGORIO STYLE
-
-¡Hola ${reserva.cliente.nombre}! 
-
-📋 DETALLES DE TU RESERVA:
-✂️ Servicio: ${reserva.servicio}
-💰 Precio: Bs ${reserva.precio}
-⏱ Duración: ${reserva.duracion} min
-👨‍💼 Barbero: ${reserva.estilista}
-📅 Fecha: ${reserva.fecha}
-🕐 Hora: ${reserva.hora}
-
-📍 Dirección: Ecuador y Pasaje del Maestro
-📞 Teléfono: 67233590
-
-💡 IMPORTANTE:
-• Llega 5 minutos antes
-• Trae tu comprobante de pago
-• Cancelación con 2 horas de anticipación
-
-¡Te esperamos en Gregorio Style! 🪒`;
-    
-    const mensajeCodificado = encodeURIComponent(mensajeCliente);
-    const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
-    
-    // Abrir WhatsApp para el cliente
-    console.log('Abriendo WhatsApp para cliente...');
-    window.open(urlWhatsApp, '_blank');
-}
+// ===== SISTEMA WHATSAPP SOLO DUEÑO =====
 
 // FUNCIÓN PARA DUEÑO (TU WHATSAPP)
 function enviarWhatsAppDueño(reserva) {
-    const telefonoDueño = "59172346861"; // ⬅️ TU NÚMERO REAL
+    const telefonoDueño = "59167233590"; // ⬅️ TU NÚMERO REAL
     
     const mensajeDueño = `🚨 *NUEVA RESERVA - GREGORIO STYLE* 🚨
 
@@ -677,186 +637,18 @@ function enviarWhatsAppDueño(reserva) {
 • *Hora:* ${reserva.hora}
 
 *💰 PAGO CONFIRMADO MEDIANTE QR*
-*✅ RESERVA CONFIRMADA*
+*✅ RESERVA CONFIRMADA EN SISTEMA*
 
-*⏰ ${new Date().toLocaleString('es-ES')}*`;
+*⏰ ${new Date().toLocaleString('es-ES')}*
+
+*📍 Ecuador y Pasaje del Maestro*`;
 
     const mensajeCodificado = encodeURIComponent(mensajeDueño);
     const urlWhatsApp = `https://wa.me/${telefonoDueño}?text=${mensajeCodificado}`;
     
-    // Abrir WhatsApp para el dueño (5 segundos después)
-    console.log('Abriendo WhatsApp para dueño...');
-    window.open(urlWhatsApp, '_blank');
-}
-
-// NUEVA FUNCIÓN: WhatsApp Unificado (para cliente y dueño)
-function enviarWhatsAppUnificado(reserva) {
-    const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
-    
-    // MENSAJE UNIFICADO - Cliente y Dueño en el mismo mensaje
-    const mensajeUnificado = `✅ *RESERVA CONFIRMADA - GREGORIO STYLE* ✅
-
-*👋 ¡Hola ${reserva.cliente.nombre}!*
-
-*📋 DETALLES DE TU RESERVA:*
-✂️ *Servicio:* ${reserva.servicio}
-💰 *Precio:* Bs ${reserva.precio}
-⏱ *Duración:* ${reserva.duracion} min
-👨‍💼 *Barbero:* ${reserva.estilista}
-📅 *Fecha:* ${reserva.fecha}
-🕐 *Hora:* ${reserva.hora}
-
-*📍 Dirección:*
-Ecuador y Pasaje del Maestro
-📞 *Teléfono:* 67233590
-
-*💡 INSTRUCCIONES IMPORTANTES:*
-• Llega 5 minutos antes
-• Trae tu comprobante de pago QR
-• Cancelación con 2 horas de anticipación
-
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-*🪒 INFORMACIÓN PARA EL BARBERO 🪒*
-
-*👤 DATOS DEL CLIENTE:*
-• *Nombre:* ${reserva.cliente.nombre}
-• *Teléfono:* ${reserva.cliente.telefono}
-• *Email:* ${reserva.cliente.email}
-
-*📅 DETALLES DE LA CITA:*
-• *Servicio:* ${reserva.servicio}
-• *Precio:* Bs ${reserva.precio}
-• *Duración:* ${reserva.duracion} min
-• *Barbero:* ${reserva.estilista}
-• *Fecha:* ${reserva.fecha}
-• *Hora:* ${reserva.hora}
-
-*💰 PAGO CONFIRMADO MEDIANTE QR*
-*✅ RESERVA REGISTRADA EN SISTEMA*
-
-*⏰ Fecha de reserva:* ${new Date().toLocaleString('es-ES')}
-
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-*¡Gracias por elegir Gregorio Style!* 🪒✨`;
-
-    const mensajeCodificado = encodeURIComponent(mensajeUnificado);
-    const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
-    
-    // Abrir WhatsApp - SOLO UNA VENTANA
-    window.open(urlWhatsApp, '_blank');
-    
-    // ENVIAR NOTIFICACIÓN POR EMAIL COMO RESPALDO
-    enviarNotificacionReserva(reserva);
-}
-
-// FUNCIÓN DE RESPALDO: Notificación por email
-function enviarNotificacionReserva(reserva) {
-    const asunto = `NUEVA RESERVA - ${reserva.cliente.nombre} - ${reserva.fecha} ${reserva.hora}`;
-    const cuerpoEmail = `
-NUEVA RESERVA CONFIRMADA - GREGORIO STYLE
-──────────────────────────────────────
-
-INFORMACIÓN DEL CLIENTE:
-• Nombre: ${reserva.cliente.nombre}
-• Teléfono: ${reserva.cliente.telefono}
-• Email: ${reserva.cliente.email}
-
-DETALLES DE LA RESERVA:
-• Servicio: ${reserva.servicio}
-• Precio: Bs ${reserva.precio}
-• Duración: ${reserva.duracion} min
-• Barbero: ${reserva.estilista}
-• Fecha: ${reserva.fecha}
-• Hora: ${reserva.hora}
-
-ESTADO: PAGO CONFIRMADO MEDIANTE QR
-RESERVA REGISTRADA EN EL SISTEMA
-
-Fecha de registro: ${new Date().toLocaleString('es-ES')}
-──────────────────────────────────────
-Gregorio Style - Ecuador y Pasaje del Maestro
-Teléfono: 67233590
-    `;
-    
-    // Crear enlace para email
-    const mailtoLink = `mailto:gregoriostyle@email.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoEmail)}`;
-    
-    // Intentar abrir email después de 3 segundos (opcional)
-    setTimeout(() => {
-        try {
-            window.location.href = mailtoLink;
-        } catch (e) {
-            console.log('Email no disponible, pero la reserva está confirmada');
-        }
-    }, 3000);
-}
-
-// FUNCIÓN MEJORADA: Enviar WhatsApp al CLIENTE para verificación
-async function enviarWhatsAppCliente(reserva) {
-    const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
-    
-    const mensajeCliente = `✅ RESERVA CONFIRMADA - GREGORIO STYLE
-
-¡Hola ${reserva.cliente.nombre}! 
-
-📋 DETALLES DE TU RESERVA:
-✂️ Servicio: ${reserva.servicio}
-💰 Precio: Bs ${reserva.precio}
-⏱ Duración: ${reserva.duracion} min
-👨‍💼 Barbero: ${reserva.estilista}
-📅 Fecha: ${reserva.fecha}
-🕐 Hora: ${reserva.hora}
-
-📍 Dirección: Ecuador y Pasaje del Maestro
-📞 Teléfono: 67233590
-
-💡 IMPORTANTE:
-• Llega 5 minutos antes
-• Trae tu comprobante de pago
-• Cancelación con 2 horas de anticipación
-
-¡Te esperamos en Gregorio Style! 🪒`;
-    
-    const mensajeCodificado = encodeURIComponent(mensajeCliente);
-    const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
-    
-    // Abrir WhatsApp para el cliente
-    window.open(urlWhatsApp, '_blank');
-    return true;
-}
-
-// FUNCIÓN MEJORADA: Enviar WhatsApp al DUEÑO de la barbería
-async function enviarWhatsAppBarbero(reserva) {
-    const telefonoBarbero = "59172346861"; // ⬅️ NÚMERO DEL DUEÑO
-    
-    const mensajeBarbero = `🪒 NUEVA RESERVA CONFIRMADA - GREGORIO STYLE
-
-👤 CLIENTE:
-• Nombre: ${reserva.cliente.nombre}
-• Teléfono: ${reserva.cliente.telefono}
-• Email: ${reserva.cliente.email}
-
-📋 DETALLES DE LA RESERVA:
-• Servicio: ${reserva.servicio}
-• Precio: Bs ${reserva.precio}
-• Duración: ${reserva.duracion} min
-• Barbero: ${reserva.estilista}
-• Fecha: ${reserva.fecha}
-• Hora: ${reserva.hora}
-
-💰 PAGO CONFIRMADO MEDIANTE QR
-✅ RESERVA CONFIRMADA
-
-📅 ${new Date().toLocaleString('es-ES')}`;
-
-    const mensajeCodificado = encodeURIComponent(mensajeBarbero);
-    const urlWhatsApp = `https://wa.me/${telefonoBarbero}?text=${mensajeCodificado}`;
-    
     // Abrir WhatsApp para el dueño
+    console.log('📱 Enviando WhatsApp al dueño...');
     window.open(urlWhatsApp, '_blank');
-    return true;
 }
 
 // ===== FUNCIONES DEL FORMULARIO MULTIPASO =====
@@ -1027,7 +819,7 @@ function actualizarHorariosDisponibles() {
 async function procesarReserva(e) {
     e.preventDefault();
     // Esta función ya no se usa directamente
-    // El flujo ahora es: Datos → Pago QR → WhatsApp
+    // El flujo ahora es: Datos → Pago QR → WhatsApp Dueño
     console.log('Flujo de reserva modificado - usar sistema de pago QR');
     mostrarAlerta('Por favor completa el proceso de pago QR para confirmar tu reserva.');
 }
@@ -1090,7 +882,7 @@ function mostrarConfirmacionReserva(reserva) {
         <strong>Nombre:</strong> ${reserva.cliente.nombre}<br>
         <strong>Teléfono:</strong> ${reserva.cliente.telefono}<br>
         <strong>Email:</strong> ${reserva.cliente.email}<br><br>
-        Te hemos enviado un mensaje por WhatsApp con los detalles.<br>
+        Se ha enviado la notificación al barbero por WhatsApp.<br>
         ¡Te esperamos en Gregorio Style!
     `;
     
