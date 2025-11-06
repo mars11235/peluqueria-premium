@@ -493,6 +493,190 @@ function inicializarSistemaReservas() {
     });
 }
 
+// ===== SISTEMA DE PAGO QR =====
+
+function mostrarPagoQR() {
+    if (!validarPasoActual(4)) {
+        return;
+    }
+
+    // Obtener el servicio seleccionado y calcular monto
+    const servicioSeleccionado = document.querySelector('input[name="service"]:checked');
+    if (!servicioSeleccionado) {
+        mostrarAlerta('Por favor selecciona un servicio primero');
+        return;
+    }
+
+    const servicioId = servicioSeleccionado.value;
+    const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
+    
+    if (servicio) {
+        // Actualizar monto en el QR
+        document.getElementById('monto-pago').textContent = `Bs ${servicio.precio}`;
+        
+        // Cambiar al paso de pago
+        document.getElementById('step-4').classList.remove('active');
+        document.getElementById('step-5').classList.add('active');
+        currentStep = 5;
+        actualizarProgresoReserva(5);
+        
+        // Scroll al paso de pago
+        setTimeout(() => {
+            document.getElementById('step-5').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }, 300);
+    }
+}
+
+function verificarPago() {
+    // Obtener datos del formulario
+    const formData = new FormData(document.getElementById('booking-form'));
+    const servicioId = formData.get('service');
+    const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
+    
+    if (!servicio) {
+        mostrarAlerta('Error: Servicio no encontrado');
+        return;
+    }
+
+    // Mostrar modal de confirmación
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="background: #1A1A1A; color: white; padding: 2rem; border-radius: 0; max-width: 400px; width: 100%; text-align: center; border: 2px solid #D4AF37;">
+            <div style="font-size: 3rem; color: #D4AF37; margin-bottom: 1rem;">💬</div>
+            <h3 style="margin-bottom: 1rem;">CONFIRMACIÓN DE PAGO</h3>
+            <p style="margin-bottom: 1.5rem; color: #B0B0B0;">
+                ¿Ya realizaste el pago mediante QR? 
+                <br>Te enviaremos un mensaje por WhatsApp para verificar tu reserva.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button onclick="enviarWhatsAppVerificacion()" style="background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                    ✅ SÍ, YA PAGUÉ
+                </button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background: #666; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                    ⏳ ESPERAR
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function cancelarPago() {
+    // Regresar al paso 4 (datos del cliente)
+    document.getElementById('step-5').classList.remove('active');
+    document.getElementById('step-4').classList.add('active');
+    currentStep = 4;
+    actualizarProgresoReserva(4);
+    
+    mostrarAlerta('Pago cancelado. Puedes modificar tus datos.');
+}
+
+async function enviarWhatsAppVerificacion() {
+    const form = document.getElementById('booking-form');
+    const formData = new FormData(form);
+    
+    try {
+        const servicioId = formData.get('service');
+        const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
+        
+        const estilistaId = formData.get('stylist');
+        let estilistaNombre = 'Cualquiera disponible';
+        
+        if (estilistaId !== 'any') {
+            const estilista = window.operarios.find(o => o.id == estilistaId);
+            if (estilista) {
+                estilistaNombre = estilista.nombre;
+            }
+        }
+        
+        const nombre = formData.get('nombre');
+        const telefono = formData.get('telefono');
+        const email = formData.get('email');
+        
+        const reservaData = {
+            servicio: servicio.nombre,
+            servicioId: servicio.id,
+            precio: servicio.precio,
+            duracion: servicio.duracion,
+            estilista: estilistaNombre,
+            fecha: formData.get('booking-date'),
+            hora: formData.get('booking-time'),
+            cliente: {
+                nombre: nombre,
+                telefono: telefono,
+                email: email
+            }
+        };
+        
+        // 1. CREAR LA RESERVA
+        const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
+        
+        // 2. ENVIAR WHATSAPP AL CLIENTE (VERIFICACIÓN)
+        await enviarWhatsAppCliente(reservaConfirmada);
+        
+        // 3. MOSTRAR CONFIRMACIÓN
+        setTimeout(() => {
+            mostrarConfirmacionReserva(reservaConfirmada);
+            resetearFormulario();
+        }, 1000);
+        
+    } catch (error) {
+        mostrarAlerta(error.message);
+    }
+}
+
+// NUEVA FUNCIÓN: Enviar WhatsApp al CLIENTE para verificación
+async function enviarWhatsAppCliente(reserva) {
+    const telefonoCliente = reserva.cliente.telefono.replace(/\D/g, '');
+    
+    const mensajeCliente = `✅ RESERVA VERIFICADA - GREGORIO STYLE
+
+¡Hola ${reserva.cliente.nombre}! 
+
+📋 DETALLES DE TU RESERVA:
+✂️ Servicio: ${reserva.servicio}
+💰 Precio: Bs ${reserva.precio}
+⏱ Duración: ${reserva.duracion} min
+👨‍💼 Barbero: ${reserva.estilista}
+📅 Fecha: ${reserva.fecha}
+🕐 Hora: ${reserva.hora}
+
+📍 Dirección: Ecuador y Pasaje del Maestro
+📞 Teléfono: 67233590
+
+💡 IMPORTANTE:
+• Llega 5 minutos antes
+• Trae tu comprobante de pago
+• Cancelación con 2 horas de anticipación
+
+¡Te esperamos en Gregorio Style! 🪒`;
+    
+    const mensajeCodificado = encodeURIComponent(mensajeCliente);
+    const urlWhatsApp = `https://wa.me/${telefonoCliente}?text=${mensajeCodificado}`;
+    
+    // Abrir WhatsApp para el cliente
+    window.open(urlWhatsApp, '_blank');
+    return true;
+}
+
 // ===== FUNCIONES DEL FORMULARIO MULTIPASO =====
 function nextStep(step) {
     if (validarPasoActual(currentStep)) {
@@ -660,72 +844,10 @@ function actualizarHorariosDisponibles() {
 
 async function procesarReserva(e) {
     e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    
-    const servicioId = formData.get('service');
-    const servicio = serviciosManager.servicios.find(s => s.id == servicioId);
-    if (!servicio) {
-        mostrarAlerta('Por favor selecciona un servicio');
-        return;
-    }
-    
-    const estilistaId = formData.get('stylist');
-    let estilistaNombre = 'Cualquiera disponible';
-    let operarioIdValue = null;
-    
-    if (estilistaId !== 'any') {
-        const estilista = window.operarios.find(o => o.id == estilistaId);
-        if (estilista) {
-            estilistaNombre = estilista.nombre;
-            operarioIdValue = parseInt(estilistaId);
-        }
-    }
-    
-    const nombre = formData.get('nombre');
-    const telefono = formData.get('telefono');
-    const email = formData.get('email');
-    
-    if (!nombre || !telefono || !email) {
-        mostrarAlerta('Por favor completa todos tus datos');
-        return;
-    }
-    
-    if (!validarEmail(email)) {
-        mostrarAlerta('Por favor ingresa un email válido');
-        return;
-    }
-    
-    const reservaData = {
-        servicio: servicio.nombre,
-        servicioId: servicio.id,
-        precio: servicio.precio,
-        duracion: servicio.duracion,
-        estilista: estilistaNombre,
-        operarioId: operarioIdValue,
-        fecha: formData.get('booking-date'),
-        hora: formData.get('booking-time'),
-        cliente: {
-            nombre: nombre,
-            telefono: telefono,
-            email: email
-        }
-    };
-    
-    try {
-        const reservaConfirmada = sistemaReservas.crearReserva(reservaData);
-        
-        // ENVIAR WHATSAPP AL BARBERO
-        await sistemaReservas.enviarWhatsAppBarbero(reservaConfirmada);
-        
-        setTimeout(() => {
-            mostrarConfirmacionReserva(reservaConfirmada);
-            resetearFormulario();
-        }, 1000);
-        
-    } catch (error) {
-        mostrarAlerta(error.message);
-    }
+    // Esta función ya no se usa directamente
+    // El flujo ahora es: Datos → Pago QR → WhatsApp
+    console.log('Flujo de reserva modificado - usar sistema de pago QR');
+    mostrarAlerta('Por favor completa el proceso de pago QR para confirmar tu reserva.');
 }
 
 function resetearFormulario() {
@@ -786,11 +908,11 @@ function mostrarConfirmacionReserva(reserva) {
         <strong>Nombre:</strong> ${reserva.cliente.nombre}<br>
         <strong>Teléfono:</strong> ${reserva.cliente.telefono}<br>
         <strong>Email:</strong> ${reserva.cliente.email}<br><br>
-        Te esperamos en Gregorio Style!
+        Te hemos enviado un mensaje por WhatsApp con los detalles.<br>
+        ¡Te esperamos en Gregorio Style!
     `;
     
     const modal = document.createElement('div');
-    modal.className = 'confirmation-modal';
     modal.style.cssText = `
         position: fixed;
         top: 0;
@@ -928,6 +1050,10 @@ window.nextStep = nextStep;
 window.prevStep = prevStep;
 window.lanzarConfeti = lanzarConfeti;
 window.mostrarAlerta = mostrarAlerta;
+window.mostrarPagoQR = mostrarPagoQR;
+window.verificarPago = verificarPago;
+window.cancelarPago = cancelarPago;
+window.enviarWhatsAppVerificacion = enviarWhatsAppVerificacion;
 
 // ===== PANEL ADMIN FUNCTIONS =====
 window.togglePanelAdmin = function() {
@@ -1111,7 +1237,11 @@ function inicializarProgresoReserva() {
             </div>
             <div class="progress-step">
                 <div class="step-indicator">4</div>
-                <div class="step-label">Confirmar</div>
+                <div class="step-label">Datos</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-indicator">5</div>
+                <div class="step-label">Pago</div>
             </div>
         </div>
     `;

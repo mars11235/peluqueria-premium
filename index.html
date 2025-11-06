@@ -475,18 +475,58 @@
                         </div>
                     </div>
                     
-                    <div class="form-step" id="step-4">
-                        <h3>4. TUS DATOS</h3>
-                        <div class="client-info">
-                            <input type="text" name="nombre" placeholder="Nombre completo" required>
-                            <input type="tel" name="telefono" placeholder="Teléfono" required>
-                            <input type="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-navigation">
-                            <button type="button" class="form-prev" onclick="prevStep(3)">ANTERIOR</button>
-                            <button type="submit" class="form-submit">CONFIRMAR RESERVA</button>
-                        </div>
-                    </div>
+                   <!-- Paso 4 - Datos del Cliente -->
+<div class="form-step" id="step-4">
+    <h3>4. TUS DATOS</h3>
+    <div class="client-info">
+        <input type="text" name="nombre" placeholder="Nombre completo" required>
+        <input type="tel" name="telefono" placeholder="Teléfono" required>
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="form-navigation">
+        <button type="button" class="form-prev" onclick="prevStep(3)">ANTERIOR</button>
+        <button type="button" class="form-next" onclick="mostrarPagoQR()">CONTINUAR AL PAGO</button>
+    </div>
+</div>
+
+<!-- NUEVO: Paso 5 - Pago QR -->
+<div class="form-step" id="step-5">
+    <h3>5. PAGO CON QR</h3>
+    
+    <div class="payment-section">
+        <div class="payment-instructions">
+            <h4>📋 INSTRUCCIONES DE PAGO:</h4>
+            <ol>
+                <li>Escanea el código QR con tu app de banco</li>
+                <li>Realiza el pago del servicio</li>
+                <li>Guarda el comprobante</li>
+                <li>Haz clic en "YA PAGUÉ" para confirmar</li>
+            </ol>
+        </div>
+
+        <div class="qr-container">
+            <!-- REEMPLAZA ESTA URL CON TU QR REAL -->
+            <img src="images/qr-pago.jpg" alt="QR para pago - Gregorio Style" id="qr-pago">
+            <p style="color: #333; margin-top: 0.5rem; font-weight: bold;">
+                Monto: <span id="monto-pago">Bs 0</span>
+            </p>
+        </div>
+
+        <div class="payment-actions">
+            <button type="button" class="btn-payment btn-confirm-payment" onclick="verificarPago()">
+                ✅ YA PAGUÉ
+            </button>
+            <button type="button" class="btn-payment btn-cancel-payment" onclick="cancelarPago()">
+                ❌ CANCELAR
+            </button>
+        </div>
+
+        <p style="color: #888; margin-top: 1rem; font-size: 0.9rem;">
+            ⚠️ La reserva se confirmará solo después del pago
+        </p>
+    </div>
+</div>
+
                 </form>
                 
                 <div class="booking-summary">
