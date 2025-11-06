@@ -656,7 +656,7 @@ async function enviarWhatsAppCliente(reserva) {
 
 // FUNCIÓN MEJORADA: Enviar WhatsApp al DUEÑO de la barbería
 async function enviarWhatsAppBarbero(reserva) {
-    const telefonoBarbero = "59167233590"; // ⬅️ NÚMERO DEL DUEÑO
+    const telefonoBarbero = "59172346861"; // ⬅️ NÚMERO DEL DUEÑO
     
     const mensajeBarbero = `🪒 NUEVA RESERVA CONFIRMADA - GREGORIO STYLE
 
