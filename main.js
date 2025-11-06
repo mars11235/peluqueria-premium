@@ -619,7 +619,7 @@ async function enviarWhatsAppVerificacion() {
 
 // FUNCIÓN PARA DUEÑO (TU WHATSAPP)
 function enviarWhatsAppDueño(reserva) {
-    const telefonoDueño = "59167233590"; // ⬅️ TU NÚMERO REAL
+    const telefonoDueño = "59172346861"; // ⬅️ TU NÚMERO REAL
     
     const mensajeDueño = `🚨 *NUEVA RESERVA - GREGORIO STYLE* 🚨
 
